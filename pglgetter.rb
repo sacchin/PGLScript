@@ -64,35 +64,32 @@ else
 end
 end
 
-pockemonNo = ["303-0", "304-0", "305-0"]
-
-pockemonNo.each {|pno|
+client = Mysql2::Client.new(:host => "localhost", :username => "sacchin", :password => "su0u1r0", :database => "pokemon")
+pno = '303-0'
+for i in [1, 2, 3]
 puts(pno + "のデータを取得します。")
-parsedJson = postPGL('303-0')
+parsedJson = postPGL(pno)
 
 nextPokemonId = parsedJson['nextPokemonId']
 rankingPokemonTrend = parsedJson['rankingPokemonTrend']
 
-
 showHash(rankingPokemonTrend)
 #File.write("hoge.txt", parsedJson)
 
+client.query("INSERT INTO ranking_pokemon_trend (pokemon_no) VALUES ('#{pno}')")
 
 sleepTime = Random.new.rand(1..30)
 puts("取得完了したので、" + sleepTime.to_s + "秒待機します。次は、" + nextPokemonId)
 sleep(sleepTime)
-}
+
+pno = nextPokemonId
+
+end
 
 
-
-
-
-client = Mysql2::Client.new(:host => "localhost", :username => "sacchin", :password => "su0u1r0", :database => "pokemon")
 client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend").each do |id, pokemon_no, time|
   p id, pokemon_no, time
 end
-#val1 = '303-0'
-#client.query("INSERT INTO ranking_pokemon_trend (pokemon_no) VALUES ('#{val}')")
 
 
 
