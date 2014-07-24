@@ -74,8 +74,8 @@ nextPokemonId = parsedJson['nextPokemonId']
 rankingPokemonTrend = parsedJson['rankingPokemonTrend']
 
 
-#showHash(parsedJson)
-File.write("hoge.txt", parsedJson)
+showHash(rankingPokemonTrend)
+#File.write("hoge.txt", parsedJson)
 
 
 sleepTime = Random.new.rand(1..30)
