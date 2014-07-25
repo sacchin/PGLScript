@@ -83,8 +83,10 @@ client.query("INSERT INTO ranking_pokemon_trend (pokemon_no) VALUES ('#{pno}')")
 #end
 result = client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend WHERE pokemon_no = #{pno} ORDER BY time desc")
 result.each do |id, pokemon_no, time|
-p id pokemon_no time
+puts('-------')
 puts(id)
+puts(pokemon_no)
+puts(time)
 end
 
 sleepTime = Random.new.rand(1..30)
