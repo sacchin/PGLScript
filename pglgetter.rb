@@ -82,11 +82,9 @@ client.query("INSERT INTO ranking_pokemon_trend (pokemon_no) VALUES ('#{pno}')")
 #puts(id.to_s + " - " + pokemon_no + " - " + time)
 #end
 result = client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend WHERE pokemon_no = #{pno} ORDER BY time desc")
-result.each do |id, pokemon_no, time|
-puts('-------')
-puts(id)
-puts(pokemon_no)
-puts(time)
+result.each do |row|
+parent_id = row['id']
+puts(parent_id)
 end
 
 sleepTime = Random.new.rand(1..30)
