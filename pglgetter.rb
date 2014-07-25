@@ -78,8 +78,13 @@ showHash(rankingPokemonTrend)
 
 client.query("INSERT INTO ranking_pokemon_trend (pokemon_no) VALUES ('#{pno}')")
 
-client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend WHERE pokemon_no = #{pno} ORDER BY time desc").each do |id, pokemon_no, time|
-puts(id.to_s + " - " + pokemon_no + " - " + time)
+#client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend WHERE pokemon_no = #{pno} ORDER BY time desc").each do |id, pokemon_no, time|
+#puts(id.to_s + " - " + pokemon_no + " - " + time)
+#end
+result = client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend WHERE pokemon_no = #{pno} ORDER BY time desc")
+result.each do |id, pokemon_no, time|
+p id pokemon_no time
+puts(id)
 end
 
 sleepTime = Random.new.rand(1..30)
