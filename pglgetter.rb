@@ -65,22 +65,22 @@ break
 end
 
 
-waza_info = rankingPokemonTrend['waza_info']
+waza_info = rankingPokemonTrend['wazaInfo']
 waza_info.each{|item| 
 client.query(INSERT_WAZA_INFO + " ('#{parent_id}, #{item["ranking"]}, #{item["typeId"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, #{item["name"]}')")
 }
 
-item_info = rankingPokemonTrend['item_info']
+item_info = rankingPokemonTrend['itemInfo']
 item_info.each{|item| 
 client.query(INSERT_ITEM_INFO + " ('#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, #{item["name"]}')")
 }
 
-tokusei_info = rankingPokemonTrend['tokusei_info']
+tokusei_info = rankingPokemonTrend['tokuseiInfo']
 tokusei_info.each{|item| 
 client.query(INSERT_TOKUSEI_INFO + " ('#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, #{item["name"]}')")
 }
 
-seikaku_info = rankingPokemonTrend['seikaku_info']
+seikaku_info = rankingPokemonTrend['seikakuInfo']
 seikaku_info.each{|item| 
 client.query(INSERT_SEIKAKU_INFO + " ('#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, #{item["name"]}')")
 }
