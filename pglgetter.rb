@@ -6,33 +6,15 @@ require 'mysql2'
 
 PGLURL = "http://3ds.pokemon-gl.com/frontendApi/gbu/getSeasonPokemonDetail";
 
-def showArray(hashObj)
-hashObj.each{|key, value|
-  if(value.kind_of?(Hash)) then
-	showHash(value)
-  elsif (value.kind_of?(Array)) then
-  puts("array - ", value)
-	value.each{|item| puts("item - ", item)}
-  else 
-puts  value.class.name
-	puts(key + " - ", value)
-  end
-}
-end
 
-def showHash(hashObj)
-hashObj.each{|key, value|
-  if(value.kind_of?(Hash)) then
-	showHash(value)
-  elsif (value.kind_of?(Array)) then
-  puts("array - ", value)
-	value.each{|item| puts("item - ", item)}
-  else 
-puts  value.class.name
-	puts(key + " - ", value)
-  end
-}
-end
+INSERT_WAZA_INFO = "INSERT INTO waza_info (ranking_pokemon_trend_id, ranking, type_id, sequence_number, usage_rate, name) VALUES"
+INSERT_ITEM_INFO = "INSERT INTO item_info (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, name) VALUES"
+INSERT_TOKUSEI_INFO = "INSERT INTO tokusei_info (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, name) VALUES"
+INSERT_SEIAKU_INFO = "INSERT INTO seikaku_info (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, name) VALUES"
+
+#File.write("hoge.txt", parsedJson)
+
+
 
 def postPGL(pockemonNo)
 uri = URI.parse(PGLURL)
@@ -58,7 +40,7 @@ request.set_form_data({
 }
 case response
 when Net::HTTPSuccess, Net::HTTPRedirection
-parsedJson = JSON.parse(response.entity) #=> {"foo"=>"bar"}
+parsedJson = JSON.parse(response.entity)
 else
   response.value
 end
@@ -73,19 +55,73 @@ parsedJson = postPGL(pno)
 nextPokemonId = parsedJson['nextPokemonId']
 rankingPokemonTrend = parsedJson['rankingPokemonTrend']
 
-showHash(rankingPokemonTrend)
-#File.write("hoge.txt", parsedJson)
+
 
 client.query("INSERT INTO ranking_pokemon_trend (pokemon_no) VALUES ('#{pno}')")
-
-#client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend WHERE pokemon_no = #{pno} ORDER BY time desc").each do |id, pokemon_no, time|
-#puts(id.to_s + " - " + pokemon_no + " - " + time)
-#end
 result = client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend WHERE pokemon_no = #{pno} ORDER BY time desc")
 result.each do |row|
 parent_id = row['id']
-puts(parent_id)
+break
 end
+
+
+waza_info = rankingPokemonTrend['waza_info']
+waza_info.each{|item| 
+client.query(INSERT_WAZA_INFO + " ('#{parent_id}, #{item["ranking"]}, #{item["typeId"]}, #{item["sequenceNumber]}, #{item["usageRate"]}, #{item["name"] }')")
+}
+
+item_info = rankingPokemonTrend['item_info']
+item_info.each{|item| 
+client.query(INSERT_ITEM_INFO + " ('#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber]}, #{item["usageRate"]}, #{item["name"] }')")
+}
+
+tokusei_info = rankingPokemonTrend['tokusei_info']
+tokusei_info.each{|item| 
+client.query(INSERT_TOKUSEI_INFO + " ('#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber]}, #{item["usageRate"]}, #{item["name"] }')")
+}
+
+seikaku_info = rankingPokemonTrend['seikaku_info']
+seikaku_info.each{|item| 
+client.query(INSERT_SEIKAKU_INFO + " ('#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber]}, #{item["usageRate"]}, #{item["name"] }')")
+}
+
+
+
+result = client.query("SELECT * FROM waza_info")
+result.each do |row|
+p row
+end
+
+result = client.query("SELECT * FROM tokusei_info")
+result.each do |row|
+p row
+end
+
+result = client.query("SELECT * FROM seikaku_info")
+result.each do |row|
+p row
+end
+
+result = client.query("SELECT * FROM item_info")
+result.each do |row|
+p row
+end
+
+
+
+rankingPokemonTrend.each{|key, value|
+  if(value.kind_of?(Hash)) then
+	showHash(value)
+  elsif (value.kind_of?(Array)) then
+  puts("array - ", value)
+	value.each{|item| puts("item - ", item)}
+  else 
+puts  value.class.name
+	puts(key + " - ", value)
+  end
+}
+
+
 
 sleepTime = Random.new.rand(1..30)
 puts("取得完了したので、" + sleepTime.to_s + "秒待機します。次は、" + nextPokemonId)
@@ -94,11 +130,6 @@ sleep(sleepTime)
 pno = nextPokemonId
 
 end
-
-
-
-
-
 
 
 
