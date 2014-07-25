@@ -83,7 +83,7 @@ client.query(INSERT_TOKUSEI_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["
 
 seikaku_info = rankingPokemonTrend['seikakuInfo']
 seikaku_info.each{|item| 
-client.query(INSERT_SEIKAKU_INFO + " ('#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, #{item["name"]}')")
+client.query(INSERT_SEIKAKU_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
 
 
