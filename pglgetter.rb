@@ -56,7 +56,7 @@ nextPokemonId = parsedJson['nextPokemonId']
 rankingPokemonTrend = parsedJson['rankingPokemonTrend']
 
 
-
+parent_id = 0
 client.query("INSERT INTO ranking_pokemon_trend (pokemon_no) VALUES ('#{pno}')")
 result = client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend WHERE pokemon_no = #{pno} ORDER BY time desc")
 result.each do |row|
