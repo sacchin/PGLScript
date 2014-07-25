@@ -67,6 +67,7 @@ end
 
 waza_info = rankingPokemonTrend['wazaInfo']
 waza_info.each{|item| 
+puts(INSERT_WAZA_INFO + " ('#{parent_id}, #{item["ranking"]}, #{item["typeId"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, #{item["name"]}')")
 client.query(INSERT_WAZA_INFO + " ('#{parent_id}, #{item["ranking"]}, #{item["typeId"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, #{item["name"]}')")
 }
 
