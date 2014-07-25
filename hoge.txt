@@ -1,0 +1,147 @@
+﻿
+CREATE TABLE ranking_pokemon_trend(
+id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+time TIMESTAMP default current_timestamp(),
+pokemon_no VARCHAR(32)
+);
+
+CREATE TABLE waza_info(
+id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ranking_pokemon_trend_id INT(11),
+ranking INT(11),
+type_id INT(11),
+sequence_number INT(11),
+usage_rate FLOAT,
+name VARCHAR(32)
+);
+
+CREATE TABLE seikaku_info(
+id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ranking_pokemon_trend_id INT(11),
+ranking INT(11),
+sequence_number INT(11),
+usage_rate FLOAT,
+name VARCHAR(32)
+);
+
+CREATE TABLE item_info(
+id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ranking_pokemon_trend_id INT(11),
+ranking INT(11),
+sequence_number INT(11),
+usage_rate FLOAT,
+name VARCHAR(32)
+);
+
+CREATE TABLE tokusei_info(
+id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ranking_pokemon_trend_id INT(11),
+ranking INT(11),
+sequence_number INT(11),
+usage_rate FLOAT,
+name VARCHAR(32)
+);
+
+
+
+
+
+
+
+
+
+{"status_code"=>"0000", 
+
+
+"rankingPokemonSuffererWaza"=>[{"ranking"=>1, "typeId"=>18, "usageRate"=>35.752788370559394, "wazaName"=>"じゃれつく", "sequenceNumber"=>1}, 
+{"ranking"=>2, "typeId"=>11, "usageRate"=>28.599076755454885, "wazaName"=>"ふいうち", "sequenceNumber"=>2}, 
+{"ranking"=>3, "typeId"=>17, "usageRate"=>19.16735957794535, "wazaName"=>"アイアンヘッド", "sequenceNumber"=>3}, 
+{"ranking"=>4, "typeId"=>15, "usageRate"=>4.844166642773175, "wazaName"=>"いわなだれ", "sequenceNumber"=>4}, 
+{"ranking"=>5, "typeId"=>3, "usageRate"=>4.753849241620553, "wazaName"=>"ほのおのキバ", "sequenceNumber"=>5}, 
+{"ranking"=>6, "typeId"=>11, "usageRate"=>3.665739599162772, "wazaName"=>"はたきおとす", "sequenceNumber"=>6}, 
+{"ranking"=>7, "typeId"=>15, "usageRate"=>0.6551595607420363, "wazaName"=>"ストーンエッジ", "sequenceNumber"=>7}, 
+{"ranking"=>8, "typeId"=>2, "usageRate"=>0.5978151790578318, "wazaName"=>"かわらわり", "sequenceNumber"=>8}, 
+{"ranking"=>9, "typeId"=>5, "usageRate"=>0.44298534851047966, "wazaName"=>"かみなりパンチ", "sequenceNumber"=>9}, 
+{"ranking"=>10, "typeId"=>2, "usageRate"=>0.3039252229262838, "wazaName"=>"きあいパンチ", "sequenceNumber"=>10}, 
+{"ranking"=>0, "typeId"=>0, "usageRate"=>1.2171345012472428, "wazaName"=>nil, "sequenceNumber"=>0}], 
+"rankingPokemonSufferer"=>[
+{"monsno"=>445, "formNo"=>"0", "ranking"=>1, "pokemonId"=>"445-0", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>14, "typeId2"=>8, "typeName1"=>"ドラゴン", "typeName2"=>"じめん", "formName"=>nil, "name"=>"ガブリアス", "sequenceNumber"=>1}, 
+{"monsno"=>115, "formNo"=>"1", "ranking"=>2, "pokemonId"=>"115-1", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>1, "typeId2"=>0, "typeName1"=>"ノーマル", "typeName2"=>nil, "formName"=>nil, "name"=>"ガルーラ", "sequenceNumber"=>2}, 
+{"monsno"=>658, "formNo"=>"0", "ranking"=>3, "pokemonId"=>"658-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>12, "typeId2"=>11, "typeName1"=>"みず", "typeName2"=>"あく", "formName"=>nil, "name"=>"ゲッコウガ", "sequenceNumber"=>3}, 
+{"monsno"=>663, "formNo"=>"0", "ranking"=>4, "pokemonId"=>"663-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>3, "typeId2"=>6, "typeName1"=>"ほのお", "typeName2"=>"ひこう", "formName"=>nil, "name"=>"ファイアロー", "sequenceNumber"=>4}, 
+{"monsno"=>700, "formNo"=>"0", "ranking"=>5, "pokemonId"=>"700-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>18, "typeId2"=>0, "typeName1"=>"フェアリー", "typeName2"=>nil, "formName"=>nil, "name"=>"ニンフィア", "sequenceNumber"=>5}, 
+{"monsno"=>184, "formNo"=>"0", "ranking"=>6, "pokemonId"=>"184-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>12, "typeId2"=>18, "typeName1"=>"みず", "typeName2"=>"フェアリー", "formName"=>nil, "name"=>"マリルリ", "sequenceNumber"=>6}], 
+"rankingPokemonIn"=>[
+{"monsno"=>445, "formNo"=>"0", "ranking"=>1, "pokemonId"=>"445-0", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>14, "typeId2"=>8, "typeName1"=>"ドラゴン", "typeName2"=>"じめん", "formName"=>nil, "name"=>"ガブリアス", "sequenceNumber"=>1}, 
+{"monsno"=>663, "formNo"=>"0", "ranking"=>2, "pokemonId"=>"663-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>3, "typeId2"=>6, "typeName1"=>"ほのお", "typeName2"=>"ひこう", "formName"=>nil, "name"=>"ファイアロー", "sequenceNumber"=>2}, 
+{"monsno"=>479, "formNo"=>"2", "ranking"=>3, "pokemonId"=>"479-2", "countBattleByForm"=>1, "battlingChangeFlg"=>0, "typeId1"=>5, "typeId2"=>12, "typeName1"=>"でんき", "typeName2"=>"みず", "formName"=>nil, "name"=>"ロトム", "sequenceNumber"=>3}, 
+{"monsno"=>488, "formNo"=>"0", "ranking"=>4, "pokemonId"=>"488-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>13, "typeId2"=>0, "typeName1"=>"エスパー", "typeName2"=>nil, "formName"=>nil, "name"=>"クレセリア", "sequenceNumber"=>4}, 
+{"monsno"=>658, "formNo"=>"0", "ranking"=>5, "pokemonId"=>"658-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>12, "typeId2"=>11, "typeName1"=>"みず", "typeName2"=>"あく", "formName"=>nil, "name"=>"ゲッコウガ", "sequenceNumber"=>5}, 
+{"monsno"=>248, "formNo"=>"0", "ranking"=>6, "pokemonId"=>"248-0", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>15, "typeId2"=>11, "typeName1"=>"いわ", "typeName2"=>"あく", "formName"=>nil, "name"=>"バンギラス", "sequenceNumber"=>6}, 
+{"monsno"=>678, "formNo"=>"0", "ranking"=>7, "pokemonId"=>"678-0", "countBattleByForm"=>1, "battlingChangeFlg"=>0, "typeId1"=>13, "typeId2"=>0, "typeName1"=>"エスパー", "typeName2"=>nil, "formName"=>nil, "name"=>"ニャオニクス", "sequenceNumber"=>7}, 
+{"monsno"=>609, "formNo"=>"0", "ranking"=>8, "pokemonId"=>"609-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>16, "typeId2"=>3, "typeName1"=>"ゴースト", "typeName2"=>"ほのお", "formName"=>nil, "name"=>"シャンデラ", "sequenceNumber"=>8}, 
+{"monsno"=>635, "formNo"=>"0", "ranking"=>9, "pokemonId"=>"635-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>11, "typeId2"=>14, "typeName1"=>"あく", "typeName2"=>"ドラゴン", "formName"=>nil, "name"=>"サザンドラ", "sequenceNumber"=>9}, 
+{"monsno"=>184, "formNo"=>"0", "ranking"=>10, "pokemonId"=>"184-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>12, "typeId2"=>18, "typeName1"=>"みず", "typeName2"=>"フェアリー", "formName"=>nil, "name"=>"マリルリ", "sequenceNumber"=>10}], 
+"beforePokemonId"=>"302-0", 
+
+
+"rankingPokemonTrend"=>{
+"wazaInfo"=>[{"ranking"=>1, "typeId"=>11, "usageRate"=>95.56448258239342, "name"=>"ふいうち", "sequenceNumber"=>1}, 
+{"ranking"=>2, "typeId"=>18, "usageRate"=>94.35814544979142, "name"=>"じゃれつく", "sequenceNumber"=>2}, 
+{"ranking"=>3, "typeId"=>17, "usageRate"=>64.43147648533973, "name"=>"アイアンヘッド", "sequenceNumber"=>3}, 
+{"ranking"=>4, "typeId"=>1, "usageRate"=>31.96496274022748, "name"=>"まもる", "sequenceNumber"=>4}, 
+{"ranking"=>5, "typeId"=>3, "usageRate"=>30.768133683547465, "name"=>"ほのおのキバ", "sequenceNumber"=>5}, 
+{"ranking"=>6, "typeId"=>1, "usageRate"=>30.18338701434531, "name"=>"つるぎのまい", "sequenceNumber"=>6}, 
+{"ranking"=>7, "typeId"=>11, "usageRate"=>12.000380323036879, "name"=>"はたきおとす", "sequenceNumber"=>7}, 
+{"ranking"=>8, "typeId"=>15, "usageRate"=>11.713949535887044, "name"=>"いわなだれ", "sequenceNumber"=>8}, 
+{"ranking"=>9, "typeId"=>15, "usageRate"=>3.9815067923317367, "name"=>"ストーンエッジ", "sequenceNumber"=>9}, 
+{"ranking"=>10, "typeId"=>1, "usageRate"=>3.731919799379598, "name"=>"みがわり", "sequenceNumber"=>10}, 
+{"ranking"=>0, "typeId"=>0, "usageRate"=>21.301655593719886, "name"=>nil, "sequenceNumber"=>0}], 
+"seikakuInfo"=>[{"ranking"=>1, "usageRate"=>75.11855382165227, "name"=>"いじっぱり", "sequenceNumber"=>1}, 
+{"ranking"=>2, "usageRate"=>13.260200382700056, "name"=>"ゆうかん", "sequenceNumber"=>2}, 
+{"ranking"=>3, "usageRate"=>6.001972925753813, "name"=>"しんちょう", "sequenceNumber"=>3}, 
+{"ranking"=>4, "usageRate"=>1.3988756700222251, "name"=>"わんぱく", "sequenceNumber"=>4}, 
+{"ranking"=>5, "usageRate"=>1.1267069967553691, "name"=>"ようき", "sequenceNumber"=>5}, 
+{"ranking"=>6, "usageRate"=>1.0553964273404723, "name"=>"なまいき", "sequenceNumber"=>6}, 
+{"ranking"=>7, "usageRate"=>0.2638491068351181, "name"=>"さみしがり", "sequenceNumber"=>7}, 
+{"ranking"=>8, "usageRate"=>0.19372704691046957, "name"=>"やんちゃ", "sequenceNumber"=>8}, 
+{"ranking"=>9, "usageRate"=>0.16876834761525572, "name"=>"のんき", "sequenceNumber"=>9}, 
+{"ranking"=>10, "usageRate"=>0.16282580016401432, "name"=>"すなお", "sequenceNumber"=>10}, 
+{"ranking"=>0, "usageRate"=>1.2491234742509365, "name"=>nil, "sequenceNumber"=>0}], 
+"itemInfo"=>[{"ranking"=>1, "usageRate"=>99.3748440081294, "name"=>"クチートナイト", "sequenceNumber"=>1}, 
+{"ranking"=>2, "usageRate"=>0.1390556103590487, "name"=>"きあいのタスキ", "sequenceNumber"=>2}, 
+{"ranking"=>3, "usageRate"=>0.11885094902482796, "name"=>"いのちのたま", "sequenceNumber"=>3}, 
+{"ranking"=>4, "usageRate"=>0.054671436551420864, "name"=>"ふうせん", "sequenceNumber"=>4}, 
+{"ranking"=>5, "usageRate"=>0.03208975623670355, "name"=>"じゃくてんほけん", "sequenceNumber"=>5}, 
+{"ranking"=>6, "usageRate"=>0.02377018980496559, "name"=>"とつげきチョッキ", "sequenceNumber"=>6}, 
+{"ranking"=>7, "usageRate"=>0.017827642353724193, "name"=>"せいれいプレート", "sequenceNumber"=>7}, 
+{"ranking"=>8, "usageRate"=>0.017827642353724193, "name"=>"オボンのみ", "sequenceNumber"=>8}, 
+{"ranking"=>9, "usageRate"=>0.015450623373227635, "name"=>"ゴツゴツメット", "sequenceNumber"=>9}, 
+{"ranking"=>10, "usageRate"=>0.014262113882979356, "name"=>"せんせいのツメ", "sequenceNumber"=>10}, 
+{"ranking"=>0, "usageRate"=>0.10815436361260475, "name"=>nil, "sequenceNumber"=>0}], 
+"tokuseiInfo"=>[{"ranking"=>1, "usageRate"=>95.6500552656913, "name"=>"いかく", "sequenceNumber"=>1}, 
+{"ranking"=>2, "usageRate"=>3.6558551920037083, "name"=>"かいりきバサミ", "sequenceNumber"=>2}, 
+{"ranking"=>3, "usageRate"=>0.6940895423049953, "name"=>"ちからずく", "sequenceNumber"=>3}]}, 
+
+
+"rankingPokemonInfo"=>{"monsno"=>303, "formNo"=>"0", "ranking"=>12, "pokemonId"=>"303-0", "weight"=>"115.0", "typeId1"=>17, "typeId2"=>18, "typeName1"=>"はがね", "typeName2"=>"フェアリー", "formName"=>nil, "name"=>"クチート", "sequenceNumber"=>12, "height"=>"60.0"}, 
+"rankingPokemonDown"=>[{"monsno"=>445, "formNo"=>"0", "ranking"=>1, "pokemonId"=>"445-0", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>14, "typeId2"=>8, "typeName1"=>"ドラゴン", "typeName2"=>"じめん", "formName"=>nil, "name"=>"ガブリアス", "sequenceNumber"=>1}, 
+{"monsno"=>115, "formNo"=>"1", "ranking"=>2, "pokemonId"=>"115-1", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>1, "typeId2"=>0, "typeName1"=>"ノーマル", "typeName2"=>nil, "formName"=>nil, "name"=>"ガルーラ", "sequenceNumber"=>2}, 
+{"monsno"=>663, "formNo"=>"0", "ranking"=>3, "pokemonId"=>"663-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>3, "typeId2"=>6, "typeName1"=>"ほのお", "typeName2"=>"ひこう", "formName"=>nil, "name"=>"ファイアロー", "sequenceNumber"=>3}, 
+{"monsno"=>6, "formNo"=>"2", "ranking"=>4, "pokemonId"=>"6-2", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>3, "typeId2"=>6, "typeName1"=>"ほのお", "typeName2"=>"ひこう", "formName"=>nil, "name"=>"リザードン", "sequenceNumber"=>4}, 
+{"monsno"=>485, "formNo"=>"0", "ranking"=>5, "pokemonId"=>"485-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>3, "typeId2"=>17, "typeName1"=>"ほのお", "typeName2"=>"はがね", "formName"=>nil, "name"=>"ヒードラン", "sequenceNumber"=>5}, 
+{"monsno"=>681, "formNo"=>"1", "ranking"=>6, "pokemonId"=>"681-1", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>17, "typeId2"=>16, "typeName1"=>"はがね", "typeName2"=>"ゴースト", "formName"=>nil, "name"=>"ギルガルド", "sequenceNumber"=>6}], 
+"rankingPokemonDownWazaOther"=>{"ranking"=>0, "typeId"=>0, "usageRate"=>9.65952521347922, "wazaName"=>"その他", "sequenceNumber"=>0}, 
+"nextPokemonId"=>"304-0", 
+"rankingPokemonDownWaza"=>[{"ranking"=>1, "typeId"=>8, "usageRate"=>15.636943370678548, "wazaName"=>"じしん", "sequenceNumber"=>1}, 
+{"ranking"=>2, "typeId"=>3, "usageRate"=>5.18028347419686, "wazaName"=>"ねっぷう", "sequenceNumber"=>2}, 
+{"ranking"=>3, "typeId"=>3, "usageRate"=>4.717290178863919, "wazaName"=>"フレアドライブ", "sequenceNumber"=>3}, 
+{"ranking"=>4, "typeId"=>3, "usageRate"=>4.677979427373387, "wazaName"=>"かえんほうしゃ", "sequenceNumber"=>4}, 
+{"ranking"=>5, "typeId"=>5, "usageRate"=>3.9354430103299918, "wazaName"=>"１０まんボルト", "sequenceNumber"=>5}, 
+{"ranking"=>6, "typeId"=>3, "usageRate"=>3.4899211601039553, "wazaName"=>"だいもんじ", "sequenceNumber"=>6}, 
+{"ranking"=>7, "typeId"=>3, "usageRate"=>3.0050885583873854, "wazaName"=>"オーバーヒート", "sequenceNumber"=>7}, 
+{"ranking"=>8, "typeId"=>16, "usageRate"=>2.638188211142414, "wazaName"=>"シャドーボール", "sequenceNumber"=>8}, 
+{"ranking"=>9, "typeId"=>17, "usageRate"=>2.4416344536897507, "wazaName"=>"アイアンヘッド", "sequenceNumber"=>9}, 
+{"ranking"=>10, "typeId"=>12, "usageRate"=>2.002664395378803, "wazaName"=>"ねっとう", "sequenceNumber"=>10}, 
+{"ranking"=>0, "typeId"=>0, "usageRate"=>42.61503854637578, "wazaName"=>nil, "sequenceNumber"=>0}], 
+"timezoneName"=>"JST"}
