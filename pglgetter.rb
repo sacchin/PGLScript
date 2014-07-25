@@ -78,6 +78,10 @@ showHash(rankingPokemonTrend)
 
 client.query("INSERT INTO ranking_pokemon_trend (pokemon_no) VALUES ('#{pno}')")
 
+client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend WHERE pokemon_no = #{pno} ORDER BY time desc").each do |id, pokemon_no, time|
+puts(id.to_s + " - " + pokemon_no + " - " + time)
+end
+
 sleepTime = Random.new.rand(1..30)
 puts("取得完了したので、" + sleepTime.to_s + "秒待機します。次は、" + nextPokemonId)
 sleep(sleepTime)
@@ -87,9 +91,6 @@ pno = nextPokemonId
 end
 
 
-client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend").each do |id, pokemon_no, time|
-  p id, pokemon_no, time
-end
 
 
 
