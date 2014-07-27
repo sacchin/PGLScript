@@ -8,7 +8,6 @@ client = Mysql2::Client.new(:host => "localhost", :username => "sacchin", :passw
 result = client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend ORDER BY time desc")
 result.each do |row|
 p row
-break
 end
 
 result = client.query("SELECT * FROM waza_info")

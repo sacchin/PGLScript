@@ -51,7 +51,7 @@ pno = '001-0'
 
 
 num = 0
-while pno != nill do
+while pno != null do
 #for i in [1, 2, 3]
 puts(pno + "のデータを取得します。")
 parsedJson = postPGL(pno)
