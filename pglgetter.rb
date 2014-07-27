@@ -47,8 +47,12 @@ end
 end
 
 client = Mysql2::Client.new(:host => "localhost", :username => "sacchin", :password => "su0u1r0", :database => "pokemon")
-pno = '303-0'
-for i in [1, 2, 3]
+pno = '001-0'
+
+
+num = 0
+while pno != nill do
+#for i in [1, 2, 3]
 puts(pno + "のデータを取得します。")
 parsedJson = postPGL(pno)
 
@@ -85,43 +89,6 @@ seikaku_info = rankingPokemonTrend['seikakuInfo']
 seikaku_info.each{|item| 
 client.query(INSERT_SEIKAKU_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
-
-
-
-result = client.query("SELECT * FROM waza_info")
-result.each do |row|
-p row
-end
-
-result = client.query("SELECT * FROM tokusei_info")
-result.each do |row|
-p row
-end
-
-result = client.query("SELECT * FROM seikaku_info")
-result.each do |row|
-p row
-end
-
-result = client.query("SELECT * FROM item_info")
-result.each do |row|
-p row
-end
-
-
-
-rankingPokemonTrend.each{|key, value|
-  if(value.kind_of?(Hash)) then
-	showHash(value)
-  elsif (value.kind_of?(Array)) then
-  puts("array - ", value)
-	value.each{|item| puts("item - ", item)}
-  else 
-puts  value.class.name
-	puts(key + " - ", value)
-  end
-}
-
 
 
 sleepTime = Random.new.rand(1..30)
