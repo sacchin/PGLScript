@@ -60,6 +60,12 @@ nextPokemonId = parsedJson['nextPokemonId']
 rankingPokemonTrend = parsedJson['rankingPokemonTrend']
 
 
+if rankingPokemonTrend == nil || nextPokemonId == nill{
+puts('error!!!')
+pno = nil
+next
+}
+
 parent_id = 0
 client.query("INSERT INTO ranking_pokemon_trend (pokemon_no) VALUES ('#{pno}')")
 result = client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend WHERE pokemon_no = #{pno} ORDER BY time desc")
@@ -70,26 +76,33 @@ end
 
 
 waza_info = rankingPokemonTrend['wazaInfo']
+if waza_info != nil
 waza_info.each{|item| 
 puts(INSERT_WAZA_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["typeId"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 client.query(INSERT_WAZA_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["typeId"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
+end
 
 item_info = rankingPokemonTrend['itemInfo']
+if item_info != nil
 item_info.each{|item| 
 client.query(INSERT_ITEM_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
+end
 
 tokusei_info = rankingPokemonTrend['tokuseiInfo']
+if tokusei_info != nil
 tokusei_info.each{|item| 
 client.query(INSERT_TOKUSEI_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
+end
 
 seikaku_info = rankingPokemonTrend['seikakuInfo']
+if seikaku_info != nil
 seikaku_info.each{|item| 
 client.query(INSERT_SEIKAKU_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
-
+end
 
 sleepTime = Random.new.rand(1..30)
 puts("取得完了したので、" + sleepTime.to_s + "秒待機します。次は、" + nextPokemonId)
