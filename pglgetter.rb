@@ -60,7 +60,7 @@ nextPokemonId = parsedJson['nextPokemonId']
 rankingPokemonTrend = parsedJson['rankingPokemonTrend']
 
 
-if (rankingPokemonTrend == nil || nextPokemonId == nill)
+if (rankingPokemonTrend == nil || nextPokemonId == nil)
 puts('error!!!')
 pno = nil
 next
