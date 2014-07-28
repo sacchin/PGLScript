@@ -49,10 +49,10 @@ end
 client = Mysql2::Client.new(:host => "localhost", :username => "sacchin", :password => "su0u1r0", :database => "pokemon")
 pno = '001-0'
 
-
+startTime = Time.now
 num = 0
-while pno != nil do
-#for i in [1, 2, 3]
+#while pno != nil do
+for i in [1, 2, 3]
 puts(pno + "のデータを取得します。")
 parsedJson = postPGL(pno)
 
@@ -76,32 +76,39 @@ end
 
 
 waza_info = rankingPokemonTrend['wazaInfo']
-if waza_info != nil
+if waza_info != nil then
 waza_info.each{|item| 
-puts(INSERT_WAZA_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["typeId"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 client.query(INSERT_WAZA_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["typeId"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
+else
+puts("#{pno}'s waza_info is nil !!")
 end
 
 item_info = rankingPokemonTrend['itemInfo']
-if item_info != nil
+if item_info != nil then
 item_info.each{|item| 
 client.query(INSERT_ITEM_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
+else
+puts("#{pno}'s item_info is nil !!")
 end
 
 tokusei_info = rankingPokemonTrend['tokuseiInfo']
-if tokusei_info != nil
+if tokusei_info != nil then
 tokusei_info.each{|item| 
 client.query(INSERT_TOKUSEI_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
+else
+puts("#{pno}'s tokusei_info is nil !!")
 end
 
 seikaku_info = rankingPokemonTrend['seikakuInfo']
-if seikaku_info != nil
+if seikaku_info != nil then
 seikaku_info.each{|item| 
 client.query(INSERT_SEIKAKU_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
+else
+puts("#{pno}'s seikaku_info is nil !!")
 end
 
 sleepTime = Random.new.rand(1..30)
@@ -111,6 +118,14 @@ sleep(sleepTime)
 pno = nextPokemonId
 
 end
+
+days = (Time.now - startTime).divmod(24*60*60)
+hours = days[1].divmod(60*60)
+mins = hours[1].divmod(60)
+
+puts "it's take #{days[0].to_i} days + #{hours[0].to_i} hours + #{mins[0].to_i} minutes + #{mins[1]} seconds"
+
+
 
 
 
