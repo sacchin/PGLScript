@@ -47,12 +47,12 @@ end
 end
 
 client = Mysql2::Client.new(:host => "localhost", :username => "sacchin", :password => "su0u1r0", :database => "pokemon")
-pno = '001-0'
+pno = '1-0'
 
 startTime = Time.now
 num = 0
-#while pno != nil do
-for i in [1, 2, 3]
+while pno != nil do
+#for i in [1, 2, 3]
 puts(pno + "のデータを取得します。")
 parsedJson = postPGL(pno)
 
@@ -123,7 +123,7 @@ days = (Time.now - startTime).divmod(24*60*60)
 hours = days[1].divmod(60*60)
 mins = hours[1].divmod(60)
 
-puts "it's take #{days[0].to_i} days + #{hours[0].to_i} hours + #{mins[0].to_i} minutes + #{mins[1]} seconds"
+puts "it's take #{days[0].to_i}days #{hours[0].to_i}hours #{mins[0].to_i}minutes #{mins[1]}seconds"
 
 
 
