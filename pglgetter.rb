@@ -60,11 +60,11 @@ nextPokemonId = parsedJson['nextPokemonId']
 rankingPokemonTrend = parsedJson['rankingPokemonTrend']
 
 
-if rankingPokemonTrend == nil || nextPokemonId == nill{
+if (rankingPokemonTrend == nil || nextPokemonId == nill)
 puts('error!!!')
 pno = nil
 next
-}
+end
 
 parent_id = 0
 client.query("INSERT INTO ranking_pokemon_trend (pokemon_no) VALUES ('#{pno}')")
