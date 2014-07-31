@@ -53,7 +53,7 @@ startTime = Time.now
 num = 0
 while pno != nil do
 #for i in [1, 2, 3]
-puts(pno + "のデータを取得します。")
+puts(Time.now.to_s + ":" + pno + "のデータを取得します。")
 parsedJson = postPGL(pno)
 
 nextPokemonId = parsedJson['nextPokemonId']

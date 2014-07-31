@@ -1,4 +1,7 @@
 ﻿
+drop database pokemon; 
+create database pokemon default character set utf8; 
+
 CREATE TABLE ranking_pokemon_trend(
 id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 time TIMESTAMP default current_timestamp(),
