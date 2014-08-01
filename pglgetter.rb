@@ -60,10 +60,13 @@ nextPokemonId = parsedJson['nextPokemonId']
 rankingPokemonTrend = parsedJson['rankingPokemonTrend']
 
 
-if (rankingPokemonTrend == nil || nextPokemonId == nil)
+if (rankingPokemonTrend == nil || nextPokemonId == nil) then
 puts('error!!!')
 pno = nil
 next
+elsif (pno == '719-0') then
+puts("#{pno} is last pokemon")
+break
 end
 
 parent_id = 0
