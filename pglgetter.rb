@@ -6,25 +6,21 @@ require 'mysql2'
 
 PGLURL = "http://3ds.pokemon-gl.com/frontendApi/gbu/getSeasonPokemonDetail";
 
-
 INSERT_WAZA_INFO = "INSERT INTO waza_info (ranking_pokemon_trend_id, ranking, type_id, sequence_number, usage_rate, name) VALUES"
 INSERT_ITEM_INFO = "INSERT INTO item_info (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, name) VALUES"
 INSERT_TOKUSEI_INFO = "INSERT INTO tokusei_info (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, name) VALUES"
 INSERT_SEIKAKU_INFO = "INSERT INTO seikaku_info (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, name) VALUES"
 
-#File.write("hoge.txt", parsedJson)
-
-
-
-def postPGL(pockemonNo)
+def postPGL(pockemonNo, seasonId)
 uri = URI.parse(PGLURL)
+timestamp = Time.now.to_i
 
 response = Net::HTTP.start(uri.host, uri.port){|http|
   request = Net::HTTP::Post.new(uri.path)
   request["referer"] = "http://3ds.pokemon-gl.com/battle/"
 request.set_form_data({
 'languageId'=>'1', 
-'seasonId'=>'4',
+'seasonId'=>seasonId,
 'battleType'=>'0',
 'timezone'=>'JST',
 'pokemonId'=>pockemonNo,
@@ -34,7 +30,7 @@ request.set_form_data({
 'displayNumberItem'=>'10',
 'displayNumberLevel'=>'10',
 'displayNumberPokemonIn'=>'10',
-'timeStamp'=>'1405469738'
+'timeStamp'=>timestamp
 }, '&')
   response = http.request(request)
 }
@@ -48,13 +44,13 @@ end
 
 client = Mysql2::Client.new(:host => "localhost", :username => "sacchin", :password => "su0u1r0", :database => "pokemon")
 pno = '1-0'
+seasonId = '6'
 
 startTime = Time.now
 num = 0
 while pno != nil do
-#for i in [1, 2, 3]
 puts(Time.now.to_s + ":" + pno + "のデータを取得します。")
-parsedJson = postPGL(pno)
+parsedJson = postPGL(pno, seasonId)
 
 nextPokemonId = parsedJson['nextPokemonId']
 rankingPokemonTrend = parsedJson['rankingPokemonTrend']
