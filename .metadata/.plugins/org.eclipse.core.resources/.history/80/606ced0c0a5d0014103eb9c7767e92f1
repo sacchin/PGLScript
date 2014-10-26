@@ -1,0 +1,19 @@
+package com.gmail.sacchin13.spring_boot_sample.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.gmail.sacchin13.spring_boot_sample.entity.Person;
+import com.gmail.sacchin13.spring_boot_sample.entity.WazaInfo;
+
+@Repository
+public interface WazaInfoRepository extends JpaRepository<WazaInfo, Integer> {
+	// find methods
+
+	@Query("select new sample.data.jpa.domain.HotelSummary(h.city, h.name, avg(r.rating)) "
+			+ "from Hotel h left outer join h.reviews r where h.city = ?1 group by h")
+	public List<Person> findByName(String name);
+}
