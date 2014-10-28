@@ -10,6 +10,10 @@ INSERT_WAZA_INFO = "INSERT INTO waza_info (ranking_pokemon_trend_id, ranking, ty
 INSERT_ITEM_INFO = "INSERT INTO item_info (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, name) VALUES"
 INSERT_TOKUSEI_INFO = "INSERT INTO tokusei_info (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, name) VALUES"
 INSERT_SEIKAKU_INFO = "INSERT INTO seikaku_info (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, name) VALUES"
+INSERT_POKEMON_DOWN = "INSERT INTO ranking_pokemon_down (ranking_pokemon_trend_id, ranking, sequence_number, mons_no, count_battle_by_form, battling_change_flag) VALUES"
+INSERT_POKEMON_DOWN_WAZA= "INSERT INTO ranking_pokemon_down_waza (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, waza_name) VALUES"
+INSERT_POKEMON_SUFFERER = "INSERT INTO ranking_pokemon_sufferer (ranking_pokemon_trend_id, ranking, sequence_number, mons_no, count_battle_by_form, battling_change_flag) VALUES"
+INSERT_POKEMON_SUFFERER_WAZA= "INSERT INTO ranking_pokemon_sufferer_waza (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, waza_name) VALUES"
 
 def postPGL(pockemonNo, seasonId)
 uri = URI.parse(PGLURL)
@@ -108,6 +112,38 @@ client.query(INSERT_SEIKAKU_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["
 }
 else
 puts("#{pno}'s seikaku_info is nil !!")
+end
+
+ranking_pokemon_down = rankingPokemonTrend['rankingPokemonDown']
+if ranking_pokemon_down != nil then
+ranking_pokemon_down.each{|item| 
+client.query(INSERT_POKEMON_DOWN + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["monsno"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
+}
+puts("#{pno}'s ranking_pokemon_down is nil !!")
+end
+
+ranking_pokemon_down_waza = rankingPokemonTrend['rankingPokemonDownWaza']
+if ranking_pokemon_down_waza != nil then
+ranking_pokemon_down_waza.each{|item| 
+client.query(INSERT_POKEMON_DOWN_WAZA + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["wazaName"]}')")
+}
+puts("#{pno}'s ranking_pokemon_down is nil !!")
+end
+
+ranking_pokemon_sufferer = rankingPokemonTrend['rankingPokemonSufferer']
+if ranking_pokemon_sufferer != nil then
+ranking_pokemon_sufferer.each{|item| 
+client.query(INSERT_POKEMON_SUFFERER + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["monsno"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
+}
+puts("#{pno}'s ranking_pokemon_sufferer is nil !!")
+end
+
+ranking_pokemon_sufferer_waza = rankingPokemonTrend['rankingPokemonSuffererWaza']
+if ranking_pokemon_sufferer_waza != nil then
+ranking_pokemon_sufferer_waza.each{|item| 
+client.query(INSERT_POKEMON_SUFFERER_WAZA + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["wazaName"]}')")
+}
+puts("#{pno}'s ranking_pokemon_down is nil !!")
 end
 
 sleepTime = Random.new.rand(1..30)

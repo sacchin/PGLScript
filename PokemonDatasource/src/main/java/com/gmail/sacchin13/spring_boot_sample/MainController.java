@@ -96,7 +96,7 @@ public class MainController {
 	@RequestMapping("/person-view")
 	public String personView(Model model) {
 		int id = wazaInfoRepository.findMaxId();
-		Iterable<WazaInfo> list = wazaInfoRepository.findById(id);
+		Iterable<WazaInfo> list = wazaInfoRepository.findByParentId(id);
 		Iterable<Person> list2 = personRepository.findAll();
 		model.addAttribute("results", list);
 		model.addAttribute("results2", list2);

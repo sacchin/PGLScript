@@ -2,6 +2,8 @@
 drop database pokemon; 
 create database pokemon default character set utf8; 
 
+use pokemon
+
 CREATE TABLE ranking_pokemon_trend(
 id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 time TIMESTAMP default current_timestamp(),
@@ -45,9 +47,43 @@ usage_rate FLOAT,
 name VARCHAR(32)
 );
 
+CREATE TABLE ranking_pokemon_down(
+id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ranking_pokemon_trend_id INT(11),
+ranking INT(11),
+sequence_number INT(11),
+mons_no INT(11),
+count_battle_by_form INT(11),
+battling_change_flag INT(11)
+);
 
+CREATE TABLE ranking_pokemon_down_waza(
+id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ranking_pokemon_trend_id INT(11),
+ranking INT(11),
+sequence_number INT(11),
+waza_name VARCHAR(32),
+usage_rate FLOAT
+);
 
+CREATE TABLE ranking_pokemon_sufferer(
+id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ranking_pokemon_trend_id INT(11),
+ranking INT(11),
+sequence_number INT(11),
+mons_no INT(11),
+count_battle_by_form INT(11),
+battling_change_flag INT(11)
+);
 
+CREATE TABLE ranking_pokemon_sufferer_waza(
+id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ranking_pokemon_trend_id INT(11),
+ranking INT(11),
+sequence_number INT(11),
+waza_name VARCHAR(32),
+usage_rate FLOAT
+);
 
 
 
@@ -67,6 +103,7 @@ name VARCHAR(32)
 {"ranking"=>9, "typeId"=>5, "usageRate"=>0.44298534851047966, "wazaName"=>"かみなりパンチ", "sequenceNumber"=>9}, 
 {"ranking"=>10, "typeId"=>2, "usageRate"=>0.3039252229262838, "wazaName"=>"きあいパンチ", "sequenceNumber"=>10}, 
 {"ranking"=>0, "typeId"=>0, "usageRate"=>1.2171345012472428, "wazaName"=>nil, "sequenceNumber"=>0}], 
+
 "rankingPokemonSufferer"=>[
 {"monsno"=>445, "formNo"=>"0", "ranking"=>1, "pokemonId"=>"445-0", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>14, "typeId2"=>8, "typeName1"=>"ドラゴン", "typeName2"=>"じめん", "formName"=>nil, "name"=>"ガブリアス", "sequenceNumber"=>1}, 
 {"monsno"=>115, "formNo"=>"1", "ranking"=>2, "pokemonId"=>"115-1", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>1, "typeId2"=>0, "typeName1"=>"ノーマル", "typeName2"=>nil, "formName"=>nil, "name"=>"ガルーラ", "sequenceNumber"=>2}, 
@@ -100,6 +137,7 @@ name VARCHAR(32)
 {"ranking"=>9, "typeId"=>15, "usageRate"=>3.9815067923317367, "name"=>"ストーンエッジ", "sequenceNumber"=>9}, 
 {"ranking"=>10, "typeId"=>1, "usageRate"=>3.731919799379598, "name"=>"みがわり", "sequenceNumber"=>10}, 
 {"ranking"=>0, "typeId"=>0, "usageRate"=>21.301655593719886, "name"=>nil, "sequenceNumber"=>0}], 
+
 "seikakuInfo"=>[{"ranking"=>1, "usageRate"=>75.11855382165227, "name"=>"いじっぱり", "sequenceNumber"=>1}, 
 {"ranking"=>2, "usageRate"=>13.260200382700056, "name"=>"ゆうかん", "sequenceNumber"=>2}, 
 {"ranking"=>3, "usageRate"=>6.001972925753813, "name"=>"しんちょう", "sequenceNumber"=>3}, 
@@ -111,6 +149,7 @@ name VARCHAR(32)
 {"ranking"=>9, "usageRate"=>0.16876834761525572, "name"=>"のんき", "sequenceNumber"=>9}, 
 {"ranking"=>10, "usageRate"=>0.16282580016401432, "name"=>"すなお", "sequenceNumber"=>10}, 
 {"ranking"=>0, "usageRate"=>1.2491234742509365, "name"=>nil, "sequenceNumber"=>0}], 
+
 "itemInfo"=>[{"ranking"=>1, "usageRate"=>99.3748440081294, "name"=>"クチートナイト", "sequenceNumber"=>1}, 
 {"ranking"=>2, "usageRate"=>0.1390556103590487, "name"=>"きあいのタスキ", "sequenceNumber"=>2}, 
 {"ranking"=>3, "usageRate"=>0.11885094902482796, "name"=>"いのちのたま", "sequenceNumber"=>3}, 
@@ -122,20 +161,24 @@ name VARCHAR(32)
 {"ranking"=>9, "usageRate"=>0.015450623373227635, "name"=>"ゴツゴツメット", "sequenceNumber"=>9}, 
 {"ranking"=>10, "usageRate"=>0.014262113882979356, "name"=>"せんせいのツメ", "sequenceNumber"=>10}, 
 {"ranking"=>0, "usageRate"=>0.10815436361260475, "name"=>nil, "sequenceNumber"=>0}], 
+
 "tokuseiInfo"=>[{"ranking"=>1, "usageRate"=>95.6500552656913, "name"=>"いかく", "sequenceNumber"=>1}, 
 {"ranking"=>2, "usageRate"=>3.6558551920037083, "name"=>"かいりきバサミ", "sequenceNumber"=>2}, 
 {"ranking"=>3, "usageRate"=>0.6940895423049953, "name"=>"ちからずく", "sequenceNumber"=>3}]}, 
 
-
 "rankingPokemonInfo"=>{"monsno"=>303, "formNo"=>"0", "ranking"=>12, "pokemonId"=>"303-0", "weight"=>"115.0", "typeId1"=>17, "typeId2"=>18, "typeName1"=>"はがね", "typeName2"=>"フェアリー", "formName"=>nil, "name"=>"クチート", "sequenceNumber"=>12, "height"=>"60.0"}, 
+
 "rankingPokemonDown"=>[{"monsno"=>445, "formNo"=>"0", "ranking"=>1, "pokemonId"=>"445-0", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>14, "typeId2"=>8, "typeName1"=>"ドラゴン", "typeName2"=>"じめん", "formName"=>nil, "name"=>"ガブリアス", "sequenceNumber"=>1}, 
 {"monsno"=>115, "formNo"=>"1", "ranking"=>2, "pokemonId"=>"115-1", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>1, "typeId2"=>0, "typeName1"=>"ノーマル", "typeName2"=>nil, "formName"=>nil, "name"=>"ガルーラ", "sequenceNumber"=>2}, 
 {"monsno"=>663, "formNo"=>"0", "ranking"=>3, "pokemonId"=>"663-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>3, "typeId2"=>6, "typeName1"=>"ほのお", "typeName2"=>"ひこう", "formName"=>nil, "name"=>"ファイアロー", "sequenceNumber"=>3}, 
 {"monsno"=>6, "formNo"=>"2", "ranking"=>4, "pokemonId"=>"6-2", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>3, "typeId2"=>6, "typeName1"=>"ほのお", "typeName2"=>"ひこう", "formName"=>nil, "name"=>"リザードン", "sequenceNumber"=>4}, 
 {"monsno"=>485, "formNo"=>"0", "ranking"=>5, "pokemonId"=>"485-0", "countBattleByForm"=>0, "battlingChangeFlg"=>0, "typeId1"=>3, "typeId2"=>17, "typeName1"=>"ほのお", "typeName2"=>"はがね", "formName"=>nil, "name"=>"ヒードラン", "sequenceNumber"=>5}, 
 {"monsno"=>681, "formNo"=>"1", "ranking"=>6, "pokemonId"=>"681-1", "countBattleByForm"=>1, "battlingChangeFlg"=>1, "typeId1"=>17, "typeId2"=>16, "typeName1"=>"はがね", "typeName2"=>"ゴースト", "formName"=>nil, "name"=>"ギルガルド", "sequenceNumber"=>6}], 
+
 "rankingPokemonDownWazaOther"=>{"ranking"=>0, "typeId"=>0, "usageRate"=>9.65952521347922, "wazaName"=>"その他", "sequenceNumber"=>0}, 
+
 "nextPokemonId"=>"304-0", 
+
 "rankingPokemonDownWaza"=>[{"ranking"=>1, "typeId"=>8, "usageRate"=>15.636943370678548, "wazaName"=>"じしん", "sequenceNumber"=>1}, 
 {"ranking"=>2, "typeId"=>3, "usageRate"=>5.18028347419686, "wazaName"=>"ねっぷう", "sequenceNumber"=>2}, 
 {"ranking"=>3, "typeId"=>3, "usageRate"=>4.717290178863919, "wazaName"=>"フレアドライブ", "sequenceNumber"=>3}, 

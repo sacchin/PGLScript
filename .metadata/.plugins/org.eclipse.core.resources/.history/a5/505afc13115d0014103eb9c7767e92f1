@@ -1,0 +1,5 @@
+package com.gmail.sacchin13.spring_boot_sample.entity;
+
+public class RankingPokemonTrend {
+
+}
