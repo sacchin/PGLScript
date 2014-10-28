@@ -17,11 +17,10 @@ public interface RankingPokemonTrendRepository extends JpaRepository<RankingPoke
 	//	+ "from Review r where r.hotel = ?1 group by r.rating order by r.rating DESC")
 
 	@Query("SELECT new com.gmail.sacchin13.spring_boot_sample.entity.RankingPokemonTrend("
-			+ "r.id, r.time, r.pokemon_now) FROM RankingPokemonTrend r WHERE r.id ("
-			+ "select max(r.id) from RankingPokemonTrend r WHERE r.pokemon_no = :pokemonNo)")
-	public RankingPokemonTrend findLatest(@Param("pokemonNo") String pokemonNo);
+			+ "r.id, r.time, r.pokemon_no) FROM RankingPokemonTrend r WHERE r.pokemon_no = :pokemonNo order by r.time desc")
+	public List<RankingPokemonTrend> findLater(@Param("pokemonNo") String pokemonNo);
 
 	@Query("SELECT new com.gmail.sacchin13.spring_boot_sample.entity.RankingPokemonTrend("
-			+ "r.id, r.time, r.pokemon_now) FROM RankingPokemonTrend r WHERE r.pokemon_no = :pokemonNo")
-	public List<RankingPokemonTrend> findListByPokemonNo(@Param("pokemonNo") String pokemonNo);
+			+ "r.id, r.time, r.pokemon_no) FROM RankingPokemonTrend r WHERE r.pokemon_no = :pokemonNo order by r.time asc")
+	public List<RankingPokemonTrend> findOlder(@Param("pokemonNo") String pokemonNo);
 }

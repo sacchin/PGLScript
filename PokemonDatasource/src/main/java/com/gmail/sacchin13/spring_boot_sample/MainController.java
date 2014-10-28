@@ -19,8 +19,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 
 import com.gmail.sacchin13.spring_boot_sample.entity.Person;
+import com.gmail.sacchin13.spring_boot_sample.entity.RankingPokemonTrend;
 import com.gmail.sacchin13.spring_boot_sample.entity.WazaInfo;
 import com.gmail.sacchin13.spring_boot_sample.repository.PersonRepository;
+import com.gmail.sacchin13.spring_boot_sample.repository.RankingPokemonTrendRepository;
 import com.gmail.sacchin13.spring_boot_sample.repository.WazaInfoRepository;
 
 @Controller
@@ -30,6 +32,8 @@ public class MainController {
 	PersonRepository personRepository;
 	@Autowired
 	WazaInfoRepository wazaInfoRepository;
+	@Autowired
+	RankingPokemonTrendRepository rankingPokemonTrendRepository;
 
 	@RequestMapping("/")
 	@ResponseBody
@@ -95,11 +99,8 @@ public class MainController {
 
 	@RequestMapping("/person-view")
 	public String personView(Model model) {
-		int id = wazaInfoRepository.findMaxId();
-		Iterable<WazaInfo> list = wazaInfoRepository.findByParentId(id);
-		Iterable<Person> list2 = personRepository.findAll();
+		Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater("303-0");
 		model.addAttribute("results", list);
-		model.addAttribute("results2", list2);
 		return "person-view";
 	}
 

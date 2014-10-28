@@ -5,7 +5,175 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2014-10-25T21:54:00Z</updated>
+  <updated>2014-10-27T14:40:59Z</updated>
+  <entry>
+    <title>Spring Integration 4.1 RC1 Released</title>
+    <link rel="alternate" href="https://spring.io/blog/2014/10/27/spring-integration-4-1-rc1-released" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Artem Bilan</name>
+    </author>
+    <id>tag:spring.io,2014-10-26:1797</id>
+    <updated>2014-10-27T14:40:59Z</updated>
+    <content type="html">&lt;p&gt;Dear Spring community,&lt;/p&gt;
+
+&lt;p&gt;We are pleased to announce that the Spring Integration 4.1 Release Candidate is available.
+Please use the &lt;a href="http://repo.springsource.org/milestone"&gt;Milestone Repository&lt;/a&gt; with Maven or Gradle, or download a &lt;a href="http://repo.spring.io/milestone/org/springframework/integration/spring-integration/4.1.0.RC1"&gt;distribution archive&lt;/a&gt;, to give it a spin.&lt;/p&gt;
+
+&lt;p&gt;The release includes many new features and improvements, as well as a number of bug fixes. The GA release
+is planned for the first week of November.&lt;/p&gt;
+
+&lt;p&gt;First of all, thank you all who provided feedback for the
+&lt;a href="https://spring.io/blog/2014/09/05/spring-integration-4-1-milestone-1-available"&gt;4.1 Milestone 1&lt;/a&gt; and
+submitted reports (bugs or new features). A special thanks to those who provided contribution via Pull Requests.
+Here is a summary of major changes since the milestone:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Web Sockets support&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;This feature was introduced in 4.1 Milestone 1, but several issues have been resolved, and we have now
+provided a couple of samples to better understand how Web Sockets can be used in Spring Integration applications:
+&lt;a href="https://github.com/spring-projects/spring-integration-samples/tree/master/basic/web-sockets"&gt;Basic&lt;/a&gt; and
+&lt;a href="https://github.com/spring-projects/spring-integration-samples/tree/master/applications/stomp-chat"&gt;STOMP Chat&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;JDK8 Optional&amp;lt;?&amp;gt; consistent handling&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;If you are using Java 8, you'll be able to use the &lt;code&gt;Optional&amp;lt;?&amp;gt;&lt;/code&gt; container for service method arguments. For example:&lt;/p&gt;
+
+&lt;div class="highlight highlight-java"&gt;&lt;pre&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;optionals&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nd"&gt;@Payload&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"@myConvert.conv(payload)"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;Optional&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Bar&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;
+        &lt;span class="nd"&gt;@Header&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"foo"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;Optional&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In this case, if &lt;code&gt;@myConvert.conv(payload)&lt;/code&gt; returns &lt;code&gt;null&lt;/code&gt;, the &lt;code&gt;payload&lt;/code&gt; variable will contain an &lt;code&gt;Optional.empty()&lt;/code&gt;.
+The same thing for &lt;code&gt;header&lt;/code&gt; variables - if there is no &lt;code&gt;foo&lt;/code&gt; header in the request &lt;code&gt;Message&amp;lt;?&amp;gt;&lt;/code&gt;. This can be used
+as an alternative to the &lt;code&gt;required&lt;/code&gt; attribute on a &lt;code&gt;@Header&lt;/code&gt; annotation.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Routing Slip pattern&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href="http://www.enterpriseintegrationpatterns.com/RoutingTable.html"&gt;Routing Slip&lt;/a&gt; pattern is now supported. Rather
+than a simple &lt;code&gt;static list of channel names&lt;/code&gt;, we have introduced the &lt;code&gt;RoutingSlipRouteStrategy&lt;/code&gt;, which provides
+dynamic runtime routing based on the request &lt;code&gt;Message&amp;lt;?&amp;gt;&lt;/code&gt; and &lt;code&gt;reply object&lt;/code&gt;. SpEL is supported too:&lt;/p&gt;
+
+&lt;div class="highlight highlight-xml"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;header-enricher&lt;/span&gt; &lt;span class="na"&gt;input-channel=&lt;/span&gt;&lt;span class="s"&gt;"input"&lt;/span&gt; &lt;span class="na"&gt;output-channel=&lt;/span&gt;&lt;span class="s"&gt;"process"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;routing-slip&lt;/span&gt; &lt;span class="na"&gt;value=&lt;/span&gt;&lt;span class="s"&gt;"channel1; request.headers[myRoutingSlipChannel];&lt;/span&gt;
+&lt;span class="s"&gt;                            routingSlipRoutingStrategy;"&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/header-enricher&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This pattern is useful in complex, dynamic, cases when it can become difficult to configure multiple routers to determine
+message flow. With this enhancement, when a message
+arrives at an endpoint that has no &lt;code&gt;output-channel&lt;/code&gt;, the routing slip is consulted to determine the next channel to which
+the message will be sent. When the routing slip is exhausted, normal &lt;code&gt;replyChannel&lt;/code&gt; processing resumes.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Idempotent Receiver pattern&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;With this release we have implemented the
+&lt;a href="http://www.enterpriseintegrationpatterns.com/IdempotentReceiver.html"&gt;Idempotent Receiver&lt;/a&gt; as a first class feature.
+Previously, users would have to implement this pattern, by using a custom &lt;code&gt;MessageSelector&lt;/code&gt; in a &lt;code&gt;&amp;lt;filter/&amp;gt;&lt;/code&gt;, for example.
+The framework now supports this capability as an &lt;code&gt;Advice&lt;/code&gt; component that can be applied to any consuming endpoint:&lt;/p&gt;
+
+&lt;div class="highlight highlight-xml"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;idempotent-receiver&lt;/span&gt; &lt;span class="na"&gt;endpoint=&lt;/span&gt;&lt;span class="s"&gt;"endpoint1, foo*"&lt;/span&gt;
+                     &lt;span class="na"&gt;metadata-store=&lt;/span&gt;&lt;span class="s"&gt;"store"&lt;/span&gt;
+                     &lt;span class="na"&gt;discard-channel=&lt;/span&gt;&lt;span class="s"&gt;"duplicates"&lt;/span&gt;
+                     &lt;span class="na"&gt;key-expression=&lt;/span&gt;&lt;span class="s"&gt;"payload.invoiceNumber"&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This creates an AOP &lt;code&gt;IdempotentReceiverInterceptor&lt;/code&gt; which is applied to the &lt;code&gt;MessageHandler#handleMessage&lt;/code&gt; within endpoints
+where the &lt;code&gt;id&lt;/code&gt; matches one of the provided &lt;code&gt;endpoint&lt;/code&gt; patterns.&lt;/p&gt;
+
+&lt;p&gt;If the &lt;code&gt;discard-channel&lt;/code&gt; is omitted, a duplicate message is still sent to the message handler, but it will contain a
+&lt;code&gt;duplicateMessage&lt;/code&gt; header, allowing user code to take further action.&lt;/p&gt;
+
+&lt;p&gt;For JavaConfig, the &lt;code&gt;@IdempotentReceiver&lt;/code&gt; annotation is provided, however the &lt;code&gt;IdempotentReceiverInterceptor&lt;/code&gt; &lt;code&gt;@Bean&lt;/code&gt; must
+ be configured too:&lt;/p&gt;
+
+&lt;div class="highlight highlight-java"&gt;&lt;pre&gt;&lt;span class="nd"&gt;@Bean&lt;/span&gt;
+&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;IdempotentReceiverInterceptor&lt;/span&gt; &lt;span class="nf"&gt;idempotentReceiverInterceptor&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+   &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nf"&gt;IdempotentReceiverInterceptor&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nf"&gt;MetadataStoreSelector&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;
+                                                    &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getPayload&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="na"&gt;toString&lt;/span&gt;&lt;span class="o"&gt;()));&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="nd"&gt;@Bean&lt;/span&gt;
+&lt;span class="nd"&gt;@ServiceActivator&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;inputChannel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"input"&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;outputChannel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"output"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nd"&gt;@IdempotentReceiver&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"idempotentReceiverInterceptor"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;MessageHandler&lt;/span&gt; &lt;span class="nf"&gt;myService&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="o"&gt;....&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;For more information, please, read &lt;code&gt;IdempotentReceiverInterceptor&lt;/code&gt; JavaDocs.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Scatter-Gather pattern&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href="http://www.enterpriseintegrationpatterns.com/BroadcastAggregate.html"&gt;Scatter-Gather&lt;/a&gt;
+Enterprise Integration Pattern is now provided:&lt;/p&gt;
+
+&lt;div class="highlight highlight-xml"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;lt;!--Auction scenario--&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;scatter-gather&lt;/span&gt; &lt;span class="na"&gt;input-channel=&lt;/span&gt;&lt;span class="s"&gt;"inputAuction"&lt;/span&gt; &lt;span class="na"&gt;output-channel=&lt;/span&gt;&lt;span class="s"&gt;"output"&lt;/span&gt;
+                &lt;span class="na"&gt;scatter-channel=&lt;/span&gt;&lt;span class="s"&gt;"auctionChannel"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;gatherer&lt;/span&gt; &lt;span class="na"&gt;release-strategy-expression=&lt;/span&gt;&lt;span class="s"&gt;"^[payload gt 5] != null or size() == 3"&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/scatter-gather&amp;gt;&lt;/span&gt;
+
+&lt;span class="c"&gt;&amp;lt;!--Distribution scenario--&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;scatter-gather&lt;/span&gt; &lt;span class="na"&gt;input-channel=&lt;/span&gt;&lt;span class="s"&gt;"inputDistribution"&lt;/span&gt; &lt;span class="na"&gt;output-channel=&lt;/span&gt;&lt;span class="s"&gt;"output"&lt;/span&gt;
+                &lt;span class="na"&gt;gather-channel=&lt;/span&gt;&lt;span class="s"&gt;"gatherChannel"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;scatterer&lt;/span&gt; &lt;span class="na"&gt;apply-sequence=&lt;/span&gt;&lt;span class="s"&gt;"true"&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;recipient&lt;/span&gt; &lt;span class="na"&gt;channel=&lt;/span&gt;&lt;span class="s"&gt;"distribution1Channel"&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;recipient&lt;/span&gt; &lt;span class="na"&gt;channel=&lt;/span&gt;&lt;span class="s"&gt;"distribution2Channel"&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;recipient&lt;/span&gt; &lt;span class="na"&gt;channel=&lt;/span&gt;&lt;span class="s"&gt;"distribution3Channel"&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/scatterer&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;gatherer&lt;/span&gt; &lt;span class="na"&gt;release-strategy-expression=&lt;/span&gt;&lt;span class="s"&gt;"^[payload gt 5] != null or size() == 3"&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/scatter-gather&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It is a compound endpoint, which combines &lt;code&gt;publish-subscribe&lt;/code&gt; logic and an &lt;code&gt;aggregation&lt;/code&gt; function.
+Of course, it could previously be implemented as an integration flow using the existing &lt;code&gt;publish-subscribe-channel&lt;/code&gt;,
+or &lt;code&gt;recipient-list-router&lt;/code&gt;, together with an &lt;code&gt;aggregator&lt;/code&gt;
+component, but this new feature provides for a cleaner implementation of scenarios such as &lt;code&gt;best quote&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Redis Queue Gateways&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A pair of &lt;code&gt;request-reply&lt;/code&gt; (inbound and outbound) gateway components based on &lt;code&gt;Redis List&lt;/code&gt;s have been added to the &lt;code&gt;Redis&lt;/code&gt; module:&lt;/p&gt;
+
+&lt;div class="highlight highlight-xml"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;int-redis:queue-outbound-gateway&lt;/span&gt; &lt;span class="na"&gt;request-channel=&lt;/span&gt;&lt;span class="s"&gt;"sendChannel"&lt;/span&gt; &lt;span class="na"&gt;queue=&lt;/span&gt;&lt;span class="s"&gt;"foo"&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+
+&lt;span class="nt"&gt;&amp;lt;int-redis:queue-inbound-gateway&lt;/span&gt; &lt;span class="na"&gt;request-channel=&lt;/span&gt;&lt;span class="s"&gt;"requestChannel"&lt;/span&gt; &lt;span class="na"&gt;queue=&lt;/span&gt;&lt;span class="s"&gt;"foo"&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Reactor's PersistentQueue&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;QueueChannel&lt;/code&gt; has been changed to allow inject any &lt;code&gt;Queue&amp;lt;?&amp;gt;&lt;/code&gt; implementation. This was done to allow the
+use of the &lt;a href="https://github.com/OpenHFT/Chronicle-Queue"&gt;Chronicle-Queue&lt;/a&gt; implementation in the &lt;a href="http://reactor.github.io/reactor/"&gt;Reactor&lt;/a&gt; project:&lt;/p&gt;
+
+&lt;div class="highlight highlight-java"&gt;&lt;pre&gt;&lt;span class="nd"&gt;@Bean&lt;/span&gt; &lt;span class="n"&gt;QueueChannel&lt;/span&gt; &lt;span class="nf"&gt;queueChannel&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+   &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nf"&gt;QueueChannel&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;PersistentQueueSpec&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Message&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;?&amp;gt;&amp;gt;()&lt;/span&gt;
+                                &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;codec&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;JavaSerializationCodec&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;gt;())&lt;/span&gt;
+                                &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;basePath&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"/usr/queuePath"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+                                &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;get&lt;/span&gt;&lt;span class="o"&gt;());&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Skipping Polls&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;When using polling endpoints, it is sometimes necessary to "skip" polls, perhaps because some downstream condition might
+cause a failure or, say, a task executor pool has no available threads. This release adds the &lt;code&gt;PollSkipAdvice&lt;/code&gt; that
+can be inserted in the poller's advice chain, with the skip logic based on user-supplied code.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Notes&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Spring Integration 4.1 requires Spring Framework 4.1&lt;/li&gt;
+&lt;li&gt;While JDK8 is now required to &lt;strong&gt;build&lt;/strong&gt; Spring Integration, the framework remains compatible with Java 6 at runtime.&lt;/li&gt;
+&lt;li&gt;We expect to announce the availability of the &lt;a href="https://github.com/spring-projects/spring-integration-extensions/tree/master/spring-integration-java-dsl"&gt;Spring Integration Java DSL&lt;/a&gt; release candidate later this week.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;Conclusion&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;See the &lt;a href="https://jira.spring.io/secure/ReleaseNote.jspa?projectId=10121&amp;amp;version=14521"&gt;Release Notes&lt;/a&gt; for this release
+and the &lt;a href="http://projects.spring.io/spring-integration/"&gt;Project Page&lt;/a&gt; for more information. For a complete
+list of "What's new" in the 4.1 release, see the &lt;a href="http://docs.spring.io/spring-integration/docs/4.1.0.RC1/reference/html/whats-new.html"&gt;reference documentation&lt;/a&gt;. Users upgrading from earlier releases should consult the various &lt;a href="https://github.com/spring-projects/spring-integration/wiki"&gt;migration guides&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;As always, we very much welcome &lt;a href="https://github.com/spring-projects/spring-integration/blob/master/CONTRIBUTING.md"&gt;contributions&lt;/a&gt;.&lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>Webinar Replay: Architecting for Continuous Delivery: Microservices with Pivotal CF and Spring Cloud</title>
     <link rel="alternate" href="https://spring.io/blog/2014/10/25/webinar-replay-architecting-for-continuous-delivery-microservices-with-pivotal-cf-and-spring-cloud" />
@@ -16,6 +184,8 @@
     <id>tag:spring.io,2014-10-26:1796</id>
     <updated>2014-10-25T21:54:00Z</updated>
     <content type="html">&lt;p&gt;Speaker: Matt Stine, Pivotal&lt;/p&gt;
+
+&lt;p&gt;Slides: &lt;a href="https://speakerdeck.com/mstine/architecting-for-continuous-delivery-microservices-with-pivotal-cf-and-spring-cloud"&gt;https://speakerdeck.com/mstine/architecting-for-continuous-delivery-microservices-with-pivotal-cf-and-spring-cloud&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt; Join Matt Stine to hear how you can architect systems that are optimized for continuous delivery, allowing you to innovate and deliver value faster and safer. Microservices, Pivotal CF, and Spring Cloud combine to create an operationalized architecture that enables enterprises to continuously deliver value at scale through rapid, iterative development, and to meet the needs of a mobile-first world.&lt;/p&gt;
 
@@ -1191,23 +1361,6 @@ Both tool suites ship on top of the latest Eclipse Luna 4.4 SR1 release as 64bit
 &lt;li&gt;Biju Kunjummen did a nice job &lt;a href="http://java.dzone.com/articles/spring-1"&gt;clarifying the differences between Spring's   &lt;code&gt;WebApplicationInitializer&lt;/code&gt; and &lt;code&gt;ApplicationContextInitializer&lt;/code&gt;&lt;/a&gt;
 &lt;/li&gt;
 &lt;/ul&gt;</content>
-  </entry>
-  <entry>
-    <title>Webinar: Architecting for Continuous Delivery:  Microservices with Pivotal CF and Spring Cloud</title>
-    <link rel="alternate" href="https://spring.io/blog/2014/10/01/webinar-architecting-for-continuous-delivery-microservices-with-pivotal-cf-and-spring-cloud" />
-    <category term="news" label="News and Events" />
-    <author>
-      <name>Pieter Humphrey</name>
-    </author>
-    <id>tag:spring.io,2014-10-01:1776</id>
-    <updated>2014-10-01T02:20:00Z</updated>
-    <content type="html">&lt;p&gt;Speaker: Matt Stine, Pivotal &lt;/p&gt;
-
-&lt;p&gt;Join Matt Stine to hear how you can architect systems that are optimized for continuous delivery, allowing you to innovate and deliver value faster and safer. Microservices, Pivotal CF, and Spring Cloud combine to create an operationalized architecture that enables enterprises to continuously deliver value at scale through rapid, iterative development, and to meet the needs of a mobile-first world.&lt;/p&gt;
-
-&lt;p&gt;Tuesday, Oct 21st, 2014 3:00PM BST (London GMT+01:00) &lt;a href="http://connect.pivotal.io/OSS_Webinar_MicroserviceswithPivotalCFandSpringCloud7AM_Register.html"&gt;Register&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Tuesday, Oct 21st, 2014 10:00AM PDT (San Francisco GMT-07:00) &lt;a href="http://connect.pivotal.io/OSS_Webinar_MicroserviceswithPivotalCFandSpringCloud10AM_Register.html"&gt;Register&lt;/a&gt;&lt;/p&gt;</content>
   </entry>
 </feed>
 
