@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.json.JSONObject;
+
 @Entity
 public class RankingPokemonTrend {
 	@Id
@@ -24,7 +26,15 @@ public class RankingPokemonTrend {
 		this.pokemon_no = pokemon_no;
 	}
 
+	public JSONObject toJSON() {
+		JSONObject temp = new JSONObject();
+		temp.put("id", id);
+		temp.put("time", time);
+		temp.put("pokemonNo", pokemon_no);
+		return temp;
+	}
+
 	public String toString() {
-		return "{id:" + id + ", time:" + String.valueOf(time.getTime()) + ", pokemon_no:" + pokemon_no + "}";
+		return toJSON().toString();
 	}
 }

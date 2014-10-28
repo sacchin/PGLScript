@@ -2,6 +2,7 @@ package com.gmail.sacchin13.spring_boot_sample;
 
 import javax.servlet.Filter;
 
+import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,24 +98,34 @@ public class MainController {
 	} 
 
 
-	@RequestMapping("/person-view")
-	public String personView(Model model) {
+	@RequestMapping("/pokemon-json")
+	public String pokemonJSON(Model model) {
+		Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater("303-0");
+		JSONArray temp = new JSONArray();
+		for (RankingPokemonTrend rankingPokemonTrend : list) {
+			temp.put(rankingPokemonTrend.toJSON());
+		}
+		return temp.toString();
+	}
+
+	@RequestMapping("/pokemon-view")
+	public String pokemonView(Model model) {
 		Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater("303-0");
 		model.addAttribute("results", list);
 		return "person-view";
 	}
 
+	@RequestMapping(value="/search", method=RequestMethod.POST)
+	public String pokemonSearch(Model model,
+			@RequestParam("pokemon_no") String no) {
+//insert sample
+//		Person person = new Person(name, tel, mail, description);
+//		personRepository.saveAndFlush(person);
+		if(no == null || no.isEmpty()){
+			no = "303-0";
+		}
 
-	@RequestMapping(value="/post", method=RequestMethod.POST)
-	public String personSearch(Model model,
-			@RequestParam("name") String name,
-			@RequestParam("tel") String tel,
-			@RequestParam("mail") String mail,
-			@RequestParam("description") String description) {
-
-		Person person = new Person(name, tel, mail, description);
-		personRepository.saveAndFlush(person);
-		Iterable<Person> list = personRepository.findAll();
+		Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater(no);
 		model.addAttribute("results", list);
 		return "person-view";
 	}

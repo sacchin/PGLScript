@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Person Info View</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p>ポケモンのJSONデータ</p>
+ 
+    <p th:text="${results}" />
+ 
+<hr />
+ 
+<p>Personデータ追加:</p>
+ 
+<form method="POST" action="/post">
+  ポケモン図鑑No: <input type="text" name="pokemon_no" /><br />
+  <input type="submit" value="表示" />
+</form>
+ 
+<hr />
+ 
+<p>Personデータ検索:</p>
+ 
+<form method="POST" action="/find">
+ <select name="category">
+ <option value="id">id</option>
+ <option value="ranking_pokemon_trend_id">ranking_pokemon_trend_id</option>
+ <option value="name">名前</option>
+ <option value="ranking">ランキング</option>
+ <option value="usage_rate">使用率</option>
+ <option value="type_id">タイプ</option>
+ <option value="sequence_number">sequence_number</option>
+</select> 
+が
+ <input type="text" name="str" />
+のものを
+ <input type="submit" value="検索" />
+</form>
+  
+ 
+</body>
+</html>

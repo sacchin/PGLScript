@@ -5,21 +5,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<p>Personデータ表示:</p>
+<p>ポケモンのJSONデータ</p>
  
     <p th:text="${results}" />
-    <p th:text="${results2}" />
  
 <hr />
  
 <p>Personデータ追加:</p>
  
-<form method="POST" action="/post">
-  名前: <input type="text" name="name" /><br />
-  電話: <input type="text" name="tel" /><br />
-  mail: <input type="text" name="mail" /><br />
-  備考: <input type="text" name="description" /><br />
-  <input type="submit" value="登録" />
+<form method="POST" action="/search">
+  ポケモン図鑑No: <input type="text" name="pokemon_no" /><br />
+  <input type="submit" value="表示" />
 </form>
  
 <hr />
