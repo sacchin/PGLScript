@@ -14,10 +14,11 @@ INSERT_WAZA_INFO = "INSERT INTO waza_info (ranking_pokemon_trend_id, ranking, ty
 INSERT_ITEM_INFO = "INSERT INTO item_info (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, name) VALUES"
 INSERT_TOKUSEI_INFO = "INSERT INTO tokusei_info (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, name) VALUES"
 INSERT_SEIKAKU_INFO = "INSERT INTO seikaku_info (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, name) VALUES"
-INSERT_POKEMON_DOWN = "INSERT INTO ranking_pokemon_down (ranking_pokemon_trend_id, ranking, sequence_number, mons_no, count_battle_by_form, battling_change_flag) VALUES"
+INSERT_POKEMON_DOWN = "INSERT INTO ranking_pokemon_down (ranking_pokemon_trend_id, ranking, sequence_number, pokemon_no, count_battle_by_form, battling_change_flag) VALUES"
 INSERT_POKEMON_DOWN_WAZA= "INSERT INTO ranking_pokemon_down_waza (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, waza_name) VALUES"
-INSERT_POKEMON_SUFFERER = "INSERT INTO ranking_pokemon_sufferer (ranking_pokemon_trend_id, ranking, sequence_number, mons_no, count_battle_by_form, battling_change_flag) VALUES"
+INSERT_POKEMON_SUFFERER = "INSERT INTO ranking_pokemon_sufferer (ranking_pokemon_trend_id, ranking, sequence_number, pokemon_no, count_battle_by_form, battling_change_flag) VALUES"
 INSERT_POKEMON_SUFFERER_WAZA= "INSERT INTO ranking_pokemon_sufferer_waza (ranking_pokemon_trend_id, ranking, sequence_number, usage_rate, waza_name) VALUES"
+INSERT_POKEMON_IN = "INSERT INTO ranking_pokemon_in (ranking_pokemon_trend_id, ranking, sequence_number, pokemon_no, count_battle_by_form, battling_change_flag) VALUES"
 
 #ポケモン図鑑NoとシーズンIDから、1体のポケモンのデータを取得する
 def postPGL(pockemonNo, seasonId)
@@ -89,9 +90,10 @@ parent_id = row['id']
 break
 end
 
-rankingPokemonInfo = rankingPokemonTrend['rankingPokemonInfo']
-ranking = rankingPokemonInfo['ranking']
-client.query(UPDATE_RANKING_POKEMON + " #{ranking} WHERE id = #{parent_id}")
+rankingPokemonInfo = parsedJson['rankingPokemonInfo']
+puts(rankingPokemonInfo)
+#ranking = rankingPokemonInfo['ranking']
+#lient.query(UPDATE_RANKING_POKEMON + " #{ranking} WHERE id = #{parent_id}")
 
 waza_info = rankingPokemonTrend['wazaInfo']
 if waza_info != nil then
@@ -129,15 +131,15 @@ else
 buff << "#{pno}'s seikaku_info is nil !!¥n"
 end
 
-ranking_pokemon_down = rankingPokemonTrend['rankingPokemonDown']
+ranking_pokemon_down = parsedJson['rankingPokemonDown']
 if ranking_pokemon_down != nil then
 ranking_pokemon_down.each{|item| 
-client.query(INSERT_POKEMON_DOWN + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["monsno"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
+client.query(INSERT_POKEMON_DOWN + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["pokemonId"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
 }
 buff << "#{pno}'s ranking_pokemon_down is nil !!¥n"
 end
 
-ranking_pokemon_down_waza = rankingPokemonTrend['rankingPokemonDownWaza']
+ranking_pokemon_down_waza = parsedJson['rankingPokemonDownWaza']
 if ranking_pokemon_down_waza != nil then
 ranking_pokemon_down_waza.each{|item| 
 client.query(INSERT_POKEMON_DOWN_WAZA + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["wazaName"]}')")
@@ -145,20 +147,28 @@ client.query(INSERT_POKEMON_DOWN_WAZA + " (#{parent_id}, #{item["ranking"]}, #{i
 buff << "#{pno}'s ranking_pokemon_down_waza is nil !!¥n"
 end
 
-ranking_pokemon_sufferer = rankingPokemonTrend['rankingPokemonSufferer']
+ranking_pokemon_sufferer = parsedJson['rankingPokemonSufferer']
 if ranking_pokemon_sufferer != nil then
 ranking_pokemon_sufferer.each{|item| 
-client.query(INSERT_POKEMON_SUFFERER + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["monsno"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
+client.query(INSERT_POKEMON_SUFFERER + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["pokemonId"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
 }
 buff << "#{pno}'s ranking_pokemon_sufferer is nil !!"
 end
 
-ranking_pokemon_sufferer_waza = rankingPokemonTrend['rankingPokemonSuffererWaza']
+ranking_pokemon_sufferer_waza = parsedJson['rankingPokemonSuffererWaza']
 if ranking_pokemon_sufferer_waza != nil then
 ranking_pokemon_sufferer_waza.each{|item| 
 client.query(INSERT_POKEMON_SUFFERER_WAZA + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["wazaName"]}')")
 }
 buff << "#{pno}'s ranking_pokemon_sufferer_waza is nil !!"
+end
+
+ranking_pokemon_in = parsedJson['rankingPokemonIn']
+if ranking_pokemon_in != nil then
+ranking_pokemon_in.each{|item| 
+client.query(INSERT_POKEMON_IN + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["pokemonId"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
+}
+buff << "#{pno}'s ranking_pokemon_in is nil !!"
 end
 
 sleepTime = Random.new.rand(1..30)
