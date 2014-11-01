@@ -91,12 +91,11 @@ break
 end
 
 rankingPokemonInfo = parsedJson['rankingPokemonInfo']
-puts(rankingPokemonInfo)
-#ranking = rankingPokemonInfo['ranking']
-#lient.query(UPDATE_RANKING_POKEMON + " #{ranking} WHERE id = #{parent_id}")
+ranking = rankingPokemonInfo['ranking']
+lient.query(UPDATE_RANKING_POKEMON + " #{ranking} WHERE id = #{parent_id}")
 
 waza_info = rankingPokemonTrend['wazaInfo']
-if waza_info != nil then
+if (waza_info != nil && waza_info != '') then
 waza_info.each{|item| 
 client.query(INSERT_WAZA_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["typeId"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
@@ -105,7 +104,7 @@ buff << "#{pno}'s waza_info is nil !!¥n"
 end
 
 item_info = rankingPokemonTrend['itemInfo']
-if item_info != nil then
+if (item_info != nil  && item_info != '')then
 item_info.each{|item| 
 client.query(INSERT_ITEM_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
@@ -114,7 +113,7 @@ buff << "#{pno}'s item_info is nil !!¥n"
 end
 
 tokusei_info = rankingPokemonTrend['tokuseiInfo']
-if tokusei_info != nil then
+if (tokusei_info != nil && tokusei_info != '') then
 tokusei_info.each{|item| 
 client.query(INSERT_TOKUSEI_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
@@ -123,7 +122,7 @@ buff << "#{pno}'s tokusei_info is nil !!¥n"
 end
 
 seikaku_info = rankingPokemonTrend['seikakuInfo']
-if seikaku_info != nil then
+if (seikaku_info != nil && seikaku_info != '') then
 seikaku_info.each{|item| 
 client.query(INSERT_SEIKAKU_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
 }
@@ -132,7 +131,7 @@ buff << "#{pno}'s seikaku_info is nil !!¥n"
 end
 
 ranking_pokemon_down = parsedJson['rankingPokemonDown']
-if ranking_pokemon_down != nil then
+if (ranking_pokemon_down != nil && ranking_pokemon_down != '') then
 ranking_pokemon_down.each{|item| 
 client.query(INSERT_POKEMON_DOWN + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["pokemonId"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
 }
@@ -140,7 +139,7 @@ buff << "#{pno}'s ranking_pokemon_down is nil !!¥n"
 end
 
 ranking_pokemon_down_waza = parsedJson['rankingPokemonDownWaza']
-if ranking_pokemon_down_waza != nil then
+if (ranking_pokemon_down_waza != nil && ranking_pokemon_down_waza != '') then
 ranking_pokemon_down_waza.each{|item| 
 client.query(INSERT_POKEMON_DOWN_WAZA + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["wazaName"]}')")
 }
@@ -148,7 +147,7 @@ buff << "#{pno}'s ranking_pokemon_down_waza is nil !!¥n"
 end
 
 ranking_pokemon_sufferer = parsedJson['rankingPokemonSufferer']
-if ranking_pokemon_sufferer != nil then
+if (ranking_pokemon_sufferer != nil && ranking_pokemon_sufferer != '') then
 ranking_pokemon_sufferer.each{|item| 
 client.query(INSERT_POKEMON_SUFFERER + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["pokemonId"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
 }
@@ -156,7 +155,7 @@ buff << "#{pno}'s ranking_pokemon_sufferer is nil !!"
 end
 
 ranking_pokemon_sufferer_waza = parsedJson['rankingPokemonSuffererWaza']
-if ranking_pokemon_sufferer_waza != nil then
+if (ranking_pokemon_sufferer_waza != nil && ranking_pokemon_sufferer_waza != '') then
 ranking_pokemon_sufferer_waza.each{|item| 
 client.query(INSERT_POKEMON_SUFFERER_WAZA + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["wazaName"]}')")
 }
@@ -164,7 +163,7 @@ buff << "#{pno}'s ranking_pokemon_sufferer_waza is nil !!"
 end
 
 ranking_pokemon_in = parsedJson['rankingPokemonIn']
-if ranking_pokemon_in != nil then
+if (ranking_pokemon_in != nil && ranking_pokemon_in != '') then
 ranking_pokemon_in.each{|item| 
 client.query(INSERT_POKEMON_IN + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["pokemonId"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
 }
