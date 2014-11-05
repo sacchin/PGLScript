@@ -1,5 +1,8 @@
 package com.gmail.sacchin13.spring_boot_sample;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.servlet.Filter;
 
 import org.json.JSONArray;
@@ -25,6 +28,7 @@ import com.gmail.sacchin13.spring_boot_sample.entity.WazaInfo;
 import com.gmail.sacchin13.spring_boot_sample.repository.PersonRepository;
 import com.gmail.sacchin13.spring_boot_sample.repository.RankingPokemonTrendRepository;
 import com.gmail.sacchin13.spring_boot_sample.repository.WazaInfoRepository;
+import com.gmail.sacchin13.spring_boot_sample.util.TimeUtil;
 
 @Controller
 @EnableAutoConfiguration
@@ -35,6 +39,65 @@ public class MainController {
 	WazaInfoRepository wazaInfoRepository;
 	@Autowired
 	RankingPokemonTrendRepository rankingPokemonTrendRepository;
+
+	@Bean
+	public EmbeddedServletContainerCustomizer containerCustomizer(){
+		return new MyCustomizer();
+	}
+
+	private static class MyCustomizer implements EmbeddedServletContainerCustomizer {
+		@Override
+		public void customize(ConfigurableEmbeddedServletContainer factory) {
+			//factory.addErrorPages(new ErrorPage(HttpStatus.BAD_REQUEST, "/400"));
+			//factory.addErrorPages(new ErrorPage(HttpStatus.UNAUTHORIZED, "/401"));
+			factory.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/404"));
+			//factory.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500"));
+		}
+	}
+
+	@Bean
+	public Filter characterEncodingFilter() {
+		CharacterEncodingFilter filter = new CharacterEncodingFilter();
+		filter.setEncoding("UTF-8");
+		filter.setForceEncoding(true);
+		return filter;
+	}
+
+	@RequestMapping("/pokemon-view")
+	public String pokemonView(Model model) {
+		Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater("303-0");
+		model.addAttribute("results", list);
+		return "person-view";
+	}
+
+	@RequestMapping(value="/search", method=RequestMethod.GET)
+	public String pokemonSearch(Model model,
+			@RequestParam("pokemon_no") String no,
+			@RequestParam("year") String year,
+			@RequestParam("month") String month,
+			@RequestParam("day") String day) {
+		//insert sample
+		//Person person = new Person(name, tel, mail, description);
+		//personRepository.saveAndFlush(person);
+		if(no == null || no.isEmpty()){
+			no = "303-0";
+		}
+		
+		Iterable<RankingPokemonTrend> list;
+		if(year == null || month == null || day == null || 
+				year.isEmpty() || month.isEmpty() || day.isEmpty() ){
+			list = rankingPokemonTrendRepository.findLater(no);
+			model.addAttribute("results", list);
+		}else{
+			Timestamp start = TimeUtil.getTimestamp(year, month, day, "00", "00");
+			Timestamp end = TimeUtil.getTimestamp(year, month, day, "23", "59");
+			System.out.println(start + " , " + end);
+			list = rankingPokemonTrendRepository.findByDay(start, end);
+			model.addAttribute("results", list);
+		}
+
+		return "person-view";
+	}
 
 	@RequestMapping("/")
 	@ResponseBody
@@ -67,30 +130,9 @@ public class MainController {
 		return "hello";    // View file is templates/hello.html
 	}
 
-	@Bean
-	public Filter characterEncodingFilter() {
-		CharacterEncodingFilter filter = new CharacterEncodingFilter();
-		filter.setEncoding("UTF-8");
-		filter.setForceEncoding(true);
-		return filter;
-	}
 
-	@Bean
-	public EmbeddedServletContainerCustomizer containerCustomizer(){
-		return new MyCustomizer();
-	}
 
-	private static class MyCustomizer implements EmbeddedServletContainerCustomizer {
 
-		@Override
-		public void customize(ConfigurableEmbeddedServletContainer factory) {
-			//factory.addErrorPages(new ErrorPage(HttpStatus.BAD_REQUEST, "/400"));
-			//factory.addErrorPages(new ErrorPage(HttpStatus.UNAUTHORIZED, "/401"));
-			factory.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/404"));
-			//factory.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500"));
-		}
-
-	}
 
 	@RequestMapping("/404")
 	public String notFoundError() {
@@ -108,27 +150,8 @@ public class MainController {
 		return temp.toString();
 	}
 
-	@RequestMapping("/pokemon-view")
-	public String pokemonView(Model model) {
-		Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater("303-0");
-		model.addAttribute("results", list);
-		return "person-view";
-	}
 
-	@RequestMapping(value="/search", method=RequestMethod.POST)
-	public String pokemonSearch(Model model,
-			@RequestParam("pokemon_no") String no) {
-//insert sample
-//		Person person = new Person(name, tel, mail, description);
-//		personRepository.saveAndFlush(person);
-		if(no == null || no.isEmpty()){
-			no = "303-0";
-		}
 
-		Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater(no);
-		model.addAttribute("results", list);
-		return "person-view";
-	}
 
 	@RequestMapping(value="/find", method=RequestMethod.POST) 
 	public String find(Model model,  @RequestParam("category") String category , @RequestParam("str") String str) {

@@ -92,7 +92,7 @@ end
 
 rankingPokemonInfo = parsedJson['rankingPokemonInfo']
 ranking = rankingPokemonInfo['ranking']
-lient.query(UPDATE_RANKING_POKEMON + " #{ranking} WHERE id = #{parent_id}")
+client.query(UPDATE_RANKING_POKEMON + " #{ranking} WHERE id = #{parent_id}")
 
 waza_info = rankingPokemonTrend['wazaInfo']
 if (waza_info != nil && waza_info != '') then

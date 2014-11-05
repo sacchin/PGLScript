@@ -15,15 +15,17 @@ public class RankingPokemonTrend {
 	protected Integer id;
 	protected Date time;
 	protected String pokemon_no;
+	protected Integer ranking;
 	
 	public RankingPokemonTrend() {
 		super();
 	}
 
-	public RankingPokemonTrend(int id, Date time, String pokemon_no) {
+	public RankingPokemonTrend(int id, Date time, String pokemon_no, int ranking) {
 		this.id = id;
 		this.time  = time;
 		this.pokemon_no = pokemon_no;
+		this.ranking = ranking;
 	}
 
 	public JSONObject toJSON() {
@@ -31,6 +33,7 @@ public class RankingPokemonTrend {
 		temp.put("id", id);
 		temp.put("time", time);
 		temp.put("pokemonNo", pokemon_no);
+		temp.put("ranking", ranking);
 		return temp;
 	}
 
