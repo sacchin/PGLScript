@@ -23,11 +23,7 @@ public class RankingPokemonTrend {
 
 	public RankingPokemonTrend(int id, Date time, String pokemon_no, int ranking) {
 		this.id = id;
-		if(time != null){
-			this.time  = time;
-		}else{
-			this.time = new Date();
-		}
+		this.time  = time;
 		this.pokemon_no = pokemon_no;
 		this.ranking = ranking;
 	}

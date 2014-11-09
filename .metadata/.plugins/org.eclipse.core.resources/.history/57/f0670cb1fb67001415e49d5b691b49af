@@ -28,6 +28,7 @@ public class RankingPokemonTrend {
 		}else{
 			this.time = new Date();
 		}
+		
 		this.pokemon_no = pokemon_no;
 		this.ranking = ranking;
 	}
