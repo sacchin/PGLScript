@@ -2108,3 +2108,13 @@
 2014-11-09 19:10:29,873 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 5 resources
 2014-11-09 19:10:29,875 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2014-11-09 19:10:29,876 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /Users/sacchin/Documents/git/PGLScript/PokemonDatasource/src/test/resources
+2014-11-09 19:14:06,617 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-11-09 19:14:06,618 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2014-11-09 19:14:06,619 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 5 resources
+2014-11-09 19:14:06,621 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-11-09 19:14:06,621 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /Users/sacchin/Documents/git/PGLScript/PokemonDatasource/src/test/resources
+2014-11-09 19:15:57,925 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-11-09 19:15:57,926 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2014-11-09 19:15:57,927 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 5 resources
+2014-11-09 19:15:57,928 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-11-09 19:15:57,929 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /Users/sacchin/Documents/git/PGLScript/PokemonDatasource/src/test/resources
