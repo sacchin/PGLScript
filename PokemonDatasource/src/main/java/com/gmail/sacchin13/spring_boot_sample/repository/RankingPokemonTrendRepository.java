@@ -18,15 +18,15 @@ public interface RankingPokemonTrendRepository extends JpaRepository<RankingPoke
 	//	+ "from Review r where r.hotel = ?1 group by r.rating order by r.rating DESC")
 
 	@Query("SELECT new com.gmail.sacchin13.spring_boot_sample.entity.RankingPokemonTrend("
-			+ "r.id, r.time, r.pokemon_no, r.ranking) FROM RankingPokemonTrend r WHERE r.pokemon_no = :pokemonNo order by r.time desc")
+			+ "r.id, r.time, r.pokemon_no, r.ranking) FROM RankingPokemonTrend r WHERE r.ranking IS NOT NULL and r.pokemon_no = :pokemonNo order by r.time desc")
 	public List<RankingPokemonTrend> findLater(@Param("pokemonNo") String pokemonNo);
 
 	@Query("SELECT new com.gmail.sacchin13.spring_boot_sample.entity.RankingPokemonTrend("
-			+ "r.id, r.time, r.pokemon_no, r.ranking) FROM RankingPokemonTrend r WHERE r.pokemon_no = :pokemonNo order by r.time asc")
+			+ "r.id, r.time, r.pokemon_no, r.ranking) FROM RankingPokemonTrend r WHERE r.ranking IS NOT NULL and r.pokemon_no = :pokemonNo order by r.time asc")
 	public List<RankingPokemonTrend> findOlder(@Param("pokemonNo") String pokemonNo);
 
 	@Query("SELECT new com.gmail.sacchin13.spring_boot_sample.entity.RankingPokemonTrend("
-			+ "r.id, r.time, r.pokemon_no, r.ranking) FROM RankingPokemonTrend r WHERE r.time between :start and :end")
+			+ "r.id, r.time, r.pokemon_no, r.ranking) FROM RankingPokemonTrend r WHERE r.ranking IS NOT NULL and r.time between :start and :end")
 	public List<RankingPokemonTrend> findByDay(@Param("start") Date start, @Param("end") Date end);
 
 	@Query("SELECT new com.gmail.sacchin13.spring_boot_sample.entity.RankingPokemonTrend("
