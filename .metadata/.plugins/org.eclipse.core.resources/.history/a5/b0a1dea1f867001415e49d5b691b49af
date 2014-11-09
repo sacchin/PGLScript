@@ -78,7 +78,7 @@ public class MainController {
 			Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater("303-0");
 			model.addAttribute("results", list);
 		}else{
-			Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findByDay(start, end);
+			Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findHigherRank(start, end);
 			model.addAttribute("results", list);
 		}
 		return "person-view";
