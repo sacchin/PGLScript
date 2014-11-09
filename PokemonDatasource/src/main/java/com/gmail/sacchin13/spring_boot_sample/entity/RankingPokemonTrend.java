@@ -22,6 +22,7 @@ public class RankingPokemonTrend {
 	}
 
 	public RankingPokemonTrend(int id, Date time, String pokemon_no, int ranking) {
+		System.out.println("" + id + " , " + time + ", " + pokemon_no + ", " + ranking);
 		this.id = id;
 		if(time != null){
 			this.time  = time;
