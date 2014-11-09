@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;today&apos; in &apos;com.gmail.sacchin13.spring_boot_sample.MainController.pokemonView(...)&apos; to &apos;yesterday&apos;&#x0A;- Original project: &apos;PokemonDatasource&apos;&#x0A;- Original element: &apos;com.gmail.sacchin13.spring_boot_sample.MainController.pokemonView(Model).today&apos;&#x0A;- Renamed element: &apos;today&apos;&#x0A;- Update references to refactored element" description="Rename local variable &apos;today&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src\/main\/java&lt;com.gmail.sacchin13.spring_boot_sample{MainController.java[MainController~pokemonView~QModel;@today!2704!2740!2713!2717!QCalendar;!0!false" name="yesterday" references="true" stamp="1415525712872" version="1.0"/>
+</session>

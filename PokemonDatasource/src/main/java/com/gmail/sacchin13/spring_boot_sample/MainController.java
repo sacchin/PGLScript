@@ -1,6 +1,7 @@
 package com.gmail.sacchin13.spring_boot_sample;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.Filter;
@@ -65,7 +66,15 @@ public class MainController {
 
 	@RequestMapping("/pokemon-view")
 	public String pokemonView(Model model) {
-		Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater("303-0");
+		Calendar yesterday = TimeUtil.getToday();
+		yesterday.add(Calendar.DAY_OF_MONTH, -1);
+		yesterday.set(Calendar.HOUR_OF_DAY, 0);
+		Date start = yesterday.getTime();
+		
+		yesterday.set(Calendar.HOUR_OF_DAY, 23);
+		Date end = yesterday.getTime();
+
+		Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findHigherRank(start, end);
 		model.addAttribute("results", list);
 		return "person-view";
 	}

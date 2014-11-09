@@ -1,0 +1,20 @@
+package com.gmail.sacchin13.spring_boot_sample.util;
+
+import java.util.Calendar;
+import java.util.Date;
+
+public class TimeUtil {
+	public static Calendar c = Calendar.getInstance();
+
+	public static Date getDate(String year, String month, String day){
+		try {
+			c.set(Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day));
+			return c.getTime();
+			
+		} catch (NumberFormatException e) {
+			return c.getTime();
+			
+		}
+		return c.getTime();
+	}
+}

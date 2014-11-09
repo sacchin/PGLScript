@@ -1,0 +1,232 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+body {
+  font: 18px sans-serif;
+}
+</style>
+
+<head>
+    <title>Pokemon Info</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css"/>
+    <!--[if lte IE 8]>
+	    <link href="/css/side-menu-old-ie.css" th:href="@{/css/side-menu-old-ie.css}" rel="stylesheet"/>
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+	    <link href="/css/side-menu.css" th:href="@{/css/side-menu.css}" rel="stylesheet"/>
+    <!--<![endif]-->
+    
+    <script type="text/javascript" src="/js/raphael.js" th:src="@{/js/raphael.js}"></script>
+    <script type="text/javascript" src="/js/jquery-2.1.1.js" th:src="@{/js/jquery-2.1.1.js}"></script>
+    <script type="text/javascript" src="/js/g.raphael-min.js" th:src="@{/js/g.raphael-min.js}"></script>
+    <script type="text/javascript" src="/js/charts.min.js" th:src="@{/js/charts.min.js}"></script>
+</head>
+<body>
+<div id="layout">
+    <!-- Menu toggle -->
+    <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+    </a>
+
+    <div id="menu">
+        <div class="pure-menu pure-menu-open">
+            <a class="pure-menu-heading" href="https://twitter.com/yadori13">Owner</a>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li class="menu-item-divided pure-menu-selected">
+                    <a href="#">Services</a>
+                </li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="main">
+        <div class="header">
+            <h1>PGL Advanced Viewer</h1>
+            <h2>より詳しい情報をお届けします</h2>
+        </div>
+
+        <div class="content" id="divContent">
+            <h2 class="content-subhead">ポケモン検索</h2>
+            <form method="GET" action="/search">
+  ポケモン図鑑No: <input type="text" name="pokemon_no" /><br />
+  <input type="submit" value="検索" />
+ <select name="year"><option value=""></option>
+ <option value="2014">2014</option>
+ <option value="2015">2015</option>
+ <option value="2016">2016</option>
+</select> 
+
+ <select name="month"><option value=""></option>
+ <option value="1">01</option>
+ <option value="2">02</option>
+ <option value="3">03</option>
+ <option value="4">04</option>
+ <option value="5">05</option>
+ <option value="6">06</option>
+ <option value="7">07</option>
+ <option value="8">08</option>
+ <option value="9">09</option>
+ <option value="10">10</option>
+ <option value="11">11</option>
+ <option value="12">12</option>
+</select>
+
+ <select name="day"><option value=""></option>
+ <option value="1">01</option> <option value="2">02</option> <option value="3">03</option> <option value="4">04</option>
+ <option value="5">05</option> <option value="6">06</option> <option value="7">07</option> <option value="8">08</option>
+ <option value="9">09</option> <option value="10">10</option> <option value="11">11</option> <option value="12">12</option>
+ <option value="13">13</option> <option value="14">14</option> <option value="15">15</option> <option value="16">16</option>
+ <option value="17">17</option> <option value="18">18</option> <option value="19">19</option> <option value="20">20</option>
+ <option value="21">21</option> <option value="22">22</option> <option value="23">23</option><option value="24">24</option>
+ <option value="25">25</option> <option value="26">26</option> <option value="27">27</option><option value="28">28</option>
+ <option value="29">29</option> <option value="30">30</option> <option value="31">31</option>
+ </select> 
+</form>
+
+
+
+            <h2 class="content-subhead">シングルレートランキング推移</h2>
+
+<table>
+<tr>
+<td id='field'>
+<div id='multiaxis' style='width: 500px; height: 250px;'></div>
+</td>
+<td>
+1<br/>
+2<br/>
+3<br/>
+4<br/>
+5<br/>
+6<br/>
+7<br/>
+8<br/>
+9<br/>
+10<br/>
+</td>
+</tr>
+</table>
+<hr />
+
+<p>ポケモンのJSONデータ</p>
+    <p th:text="${results}" />
+<script>
+var day1 = new Date(2014, 11, 1);
+var day2 = new Date(2014, 11, 2);
+var day3 = new Date(2014, 11, 3);
+var day4 = new Date(2014, 11, 4);
+var day5 = new Date(2014, 11, 5);
+var day6 = new Date(2014, 11, 6);
+var day7 = new Date(2014, 11, 7);
+var day8 = new Date(2014, 11, 8);
+var day9 = new Date(2014, 11, 9);
+var day10 = new Date(2014, 11, 10);
+
+var parentNode = document.getElementById("divContent"); 
+
+var field = document.getElementById("field"); 
+field.style.width = ($(document).width()  * 0.4) + 'px'; 
+field.style.height = ($(document).height() / 3) + 'px'; 
+
+var element = document.getElementById("multiaxis"); 
+element.style.width = ($(document).width()  * 0.4) + 'px'; 
+element.style.height = ($(document).height()  / 3) + 'px'; 
+
+var multi_axis = new Charts.LineChart('multiaxis', {
+  show_grid: true,
+  show_y_labels: false,
+  label_max: false,
+  label_min: false,
+  max_x_labels: 7,
+  max_y_labels: 7
+});
+
+multi_axis.add_line({
+  data: [[day1, 1],[day2, 1],[day3, 1],[day4, 1],[day5, 1],[day6, 1],[day7, 1],[day8, 1],[day9, 1],[day10, 1]],
+  options: {line_color: "#00aadd", dot_color: "#00aadd", area_opacity: 0.0, dot_size: 5, smoothing: 0.3, line_width: 2}
+});
+
+multi_axis.add_line({
+  data: [[day1, 2],[day2, 2],[day3, 3],[day4, 2],[day5, 3],[day6, 3],[day7, 2]],
+  options: {line_color: "#ffee33", dot_color: "#ffee33", fill_area: false, line_width: 2, smoothing: 0.3, dot_size: 5}
+});
+
+multi_axis.add_line({
+  data: [[day1, 3],[day2, 4],[day3, 4],[day4, 4],[day5, 2],[day6, 4],[day7, 4]],
+  options: {line_color: "#228b22", dot_color: "#228b22", fill_area: false, line_width: 2, smoothing: 0.3, dot_size: 5}
+});
+
+multi_axis.add_line({
+  data: [[day1, 4],[day2, 3],[day3, 2],[day4, 3],[day5, 5],[day6, 5],[day7, 3]],
+  options: {line_color: "#c71585", dot_color: "#c71585", fill_area: false, line_width: 2, smoothing: 0.3, dot_size: 5}
+});
+
+multi_axis.add_line({
+  data: [[day1, 6],[day2, 7],[day3, 7],[day4, 8],[day5, 4],[day6, 2],[day7, 5]],
+  options: {line_color: "#a9a9a9", dot_color: "#a9a9a9", fill_area: false, line_width: 2, smoothing: 0.3, dot_size: 5}
+});
+
+multi_axis.add_line({
+  data: [[day1, 5],[day2, 6],[day3, 5],[day4, 6],[day5, 6],[day6, 9],[day7, 8]],
+  options: {line_color: "#7cfc00", dot_color: "#7cfc00", fill_area: false, line_width: 2, smoothing: 0.3, dot_size: 5}
+});
+
+multi_axis.add_line({
+  data: [[day1, 7],[day2, 10],[day3, 9],[day4, 10],[day5, 7],[day6, 10],[day7, 9]],
+  options: {line_color: "#20b2aa", dot_color: "#20b2aa", fill_area: false, line_width: 2, smoothing: 0.3, dot_size: 5}
+});
+
+multi_axis.add_line({
+  data: [[day1, 8],[day2, 5],[day3, 6],[day4, 5],[day5, 8],[day6, 6],[day7, 6]],
+  options: {line_color: "#ffa500", dot_color: "#ffa500", fill_area: false, line_width: 2, smoothing: 0.3, dot_size: 5}
+});
+
+multi_axis.add_line({
+  data: [[day1, 9],[day2, 9],[day3, 8],[day4, 7],[day5, 9],[day6, 7],[day7, 7]],
+  options: {line_color: "#9370db", dot_color: "#9370db", fill_area: false, line_width: 2, smoothing: 0.3, dot_size: 5}
+});
+
+multi_axis.add_line({
+  data: [[day1, 10],[day2, 8],[day3, 10],[day4, 9],[day5, 10],[day6, 8],[day7, 10]],
+  options: {line_color: "#ff6347", dot_color: "#ff6347", fill_area: false, line_width: 2, smoothing: 0.3, dot_size: 5}
+});
+
+multi_axis.draw()
+
+</script>
+
+            <div class="pure-g">
+                <div class="pure-u-1-4">
+                    <img class="pure-img-responsive" src="http://www.pokemon.co.jp/ex/xy/story/images/img_story_01_01.jpg" alt="Peyto Lake"/>
+                </div>
+                <div class="pure-u-1-4">
+                    <img class="pure-img-responsive" src="http://www.pokemon.co.jp/ex/oras/feature/img/page02_img_01.png" alt="Train"/>
+                </div>
+                <div class="pure-u-1-4">
+                    <img class="pure-img-responsive" src="http://www.nintendo.co.jp/ds/interview/irbj/vol1/img/photo19.jpg" alt="T-Shirt Store"/>
+                </div>
+                <div class="pure-u-1-4">
+                    <img class="pure-img-responsive" src="http://livedoor.blogimg.jp/laksjdhfg1111/imgs/e/c/ec876637-s.jpg" alt="Mountain"/>
+                </div>
+            </div>
+        
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script src="js/ui.js"></script>
+</body>
+
+</html>
+
+
