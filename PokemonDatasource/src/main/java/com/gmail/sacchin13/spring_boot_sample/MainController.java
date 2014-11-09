@@ -74,9 +74,13 @@ public class MainController {
 		yesterday.set(Calendar.HOUR_OF_DAY, 23);
 		Date end = yesterday.getTime();
 
-		Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater("303-0");
-		//Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findHigherRank(start, end);
-		model.addAttribute("results", list);
+		if(start == null || end == null){
+			Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater("303-0");
+			model.addAttribute("results", list);
+		}else{
+			Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findHigherRank(start, end);
+			model.addAttribute("results", list);
+		}
 		return "person-view";
 	}
 
