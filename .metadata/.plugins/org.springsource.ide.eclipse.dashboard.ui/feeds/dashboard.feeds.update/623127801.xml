@@ -8,8 +8,8 @@
 		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
 		<language>en-us</language>
 		<managingEditor>sts@springsource.com</managingEditor>
-		<pubDate>Mon, 13 Oct 2014 10:38:33 +0100</pubDate>
-		<lastBuildDate>Mon, 13 Oct 2014 10:38:33 +0100</lastBuildDate>
+		<pubDate>Tue, 02 Dec 2014 10:38:33 +0100</pubDate>
+		<lastBuildDate>Tue, 02 Dec 2014 10:38:33 +0100</lastBuildDate>
 		<atom:link href="http://dist.springsource.com.s3.amazonaws.com/release/STS/doc/updates.xml" rel="self" type="application/rss+xml"/>
 
 <!--		<item>
@@ -40,27 +40,27 @@
 -->
 
 		<item>
-            <title>Thanks for installing STS/GGTS 3.6.2</title>
+            <title>Thanks for installing STS/GGTS 3.6.3</title>
             <link>http://spring.io/tools</link>
             <description><![CDATA[<form><p><a href="http://gopivotal.com">Pivotal</a> has released an update to Spring Tool Suite (STS) and Groovy/Grails Tool Suite (GGTS), the best Eclipse-powered development environment for building Spring, Groovy, and Grails powered enterprise application.</p>
 		<p>Please review the following documents:</p>
-		<li bindent="3"><a href="http://static.springsource.org/sts/nan/v362/NewAndNoteworthy.html">3.6.2 New &amp; Noteworthy</a></li><p></p></form>]]></description>
-            <pubDate>Mon, 13 Oct 2014 12:13:33 +0100</pubDate>
-			<category>version=[3.6.2.201410090827-RELEASE,3.6.3)</category>
+		<li bindent="3"><a href="http://static.springsource.org/sts/nan/v363/NewAndNoteworthy.html">3.6.3 New &amp; Noteworthy</a></li><p></p></form>]]></description>
+            <pubDate>Tue, 02 Dec 2014 12:13:33 +0100</pubDate>
+			<category>version=[3.6.3.201411271001-RELEASE,3.6.4)</category>
 		<!--            <category>severity=important</category>-->
-	        <guid isPermaLink="false">thanks-for-installing-sts-362</guid>
+	        <guid isPermaLink="false">thanks-for-installing-sts-363</guid>
 		</item>
 		
 		<item>
-			<title>STS/GGTS 3.6.2 has been released</title>
+			<title>STS/GGTS 3.6.3 has been released</title>
 			<link>http://spring.io/tools</link>
 			<description><![CDATA[<form><p><a href="http://gopivotal.com">Pivotal</a> has released an update to Spring Tool Suite (STS) and Groovy/Grails Tool Suite (GGTS), the best Eclipse-powered development environment for building Spring, Groovy, and Grails powered enterprise application.</p><p>It is recommend to update as soon as possible.</p>
 		<p>Please review the following documents:</p>
-		<li bindent="3"><a href="http://static.springsource.org/sts/nan/v362/NewAndNoteworthy.html">3.6.2 New &amp; Noteworthy</a></li><p></p></form>]]></description>
-        	<pubDate>Mon, 13 Oct 2014 12:12:33 +0100</pubDate>
-			<category>version=[0,3.6.2.201410090827-RELEASE)</category>
+		<li bindent="3"><a href="http://static.springsource.org/sts/nan/v363/NewAndNoteworthy.html">3.6.3 New &amp; Noteworthy</a></li><p></p></form>]]></description>
+        	<pubDate>Tue, 02 Dec 2014 12:12:33 +0100</pubDate>
+			<category>version=[0,3.6.3.201411271001-RELEASE)</category>
 			<category>severity=important</category>
-			<guid isPermaLink="false">sts-362-released</guid>
+			<guid isPermaLink="false">sts-363-released</guid>
 		</item>
 
 <!--
@@ -89,14 +89,14 @@
 		</item>
 -->
 		<item>
-			<title>Cloud Foundry Eclipse 1.7.1 released</title>
+			<title>Cloud Foundry Eclipse 1.7.3 released</title>
 			<link>http://www.cloudfoundry.com</link>
-            <description><![CDATA[<form><p><a href="http://pivotal.io">Pivotal</a> has released Cloud Foundry Eclipse version 1.7.1 which features various application deployment and home page navigation improvements, and a new Cloud Routes wizard for browsing and deleting application routes. Java 7 is a required Execution Environment.</p></form>]]></description>
-			<pubDate>Tue, 16 Sep 2014 10:38:33 +0100</pubDate>
+            <description><![CDATA[<form><p><a href="http://pivotal.io">Pivotal</a> has released Cloud Foundry Eclipse version 1.7.3. Changes include support for authenticated HTTP proxies, fixes for fetching recent logs, editing mapped application URLs, and preventing server-wide publish of local changes when adding or removing applications. Java 7 is a required Execution Environment.</p></form>]]></description>
+			<pubDate>Mon, 24 Nov 2014 10:38:33 +0100</pubDate>
 <!--			<category>version=2.9.0</category> -->
-<!--			<category>severity=important</category> -->
+			<category>severity=important</category>
 			<category>bundle=!org.cloudfoundry.ide.eclipse.feature.group</category>
-			<guid isPermaLink="false">cloud-foundry-integration-171-released</guid>
+			<guid isPermaLink="false">cloud-foundry-integration-173-released</guid>
 		</item>
 
 <!--

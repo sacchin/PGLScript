@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.servlet.Filter;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,11 +79,103 @@ public class MainController {
 			Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater("303-0");
 			model.addAttribute("results", list);
 		}else{
-			System.out.println(start + " , " + end);
-			Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findByDay(start, end);
+			Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findHigherRank(start, end);
+			
+			
+//			int i = 0;
+//			for(RankingPokemonTrend temp : list){
+//				i++;
+//				if(10 < i){
+//					break;
+//				}
+//			}
 			model.addAttribute("results", list);
+//	        multi_axis.add_line({
+//	            data: [[day1, 1],[day2, 1],[day3, 1],[day4, 1],[day5, 1],[day6, 1],[day7, 1],[day8, 1],[day9, 1],[day10, 1]],
+//	            options: {line_color: "#00aadd", dot_color: "#00aadd", area_opacity: 0.0, dot_size: 5, smoothing: 0.3, line_width: 2}
+//	          });
+
+		}
+		model.addAttribute("test", "1");
+		return "person-view";
+	}
+
+	
+	@RequestMapping("/pokemonTrendRanking")
+	public String pokemonTrendRanking(Model model) {
+		Calendar yesterday = TimeUtil.getToday();
+		yesterday.add(Calendar.DAY_OF_MONTH, -1);
+		yesterday.set(Calendar.HOUR_OF_DAY, 0);
+		Date start = yesterday.getTime();
+		
+		yesterday.set(Calendar.HOUR_OF_DAY, 23);
+		Date end = yesterday.getTime();
+
+		if(start == null || end == null){
+			Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findLater("303-0");
+			model.addAttribute("results", list);
+		}else{
+			Iterable<RankingPokemonTrend> list = rankingPokemonTrendRepository.findHigherRank(start, end);
+			
+			int i = 0;
+			JSONArray te3 = new JSONArray();
+			for(RankingPokemonTrend temp : list){
+				Iterable<RankingPokemonTrend> list2 = rankingPokemonTrendRepository.findLater(temp.getPokemonNo());
+				JSONArray te = new JSONArray();
+				for(RankingPokemonTrend temp2 : list2){
+					JSONArray te2 = new JSONArray();
+					te2.put(temp2.getTime());
+					te2.put(temp2.getRanking());
+					te.put(te2);
+				}
+				te3.put(te);
+				i++;
+				if(10 < i){
+					break;
+				}
+			}
+			String[] ranking = {"1. ガブリアス", "2. クチート", "3. ガルーラ", "4. ファイアロー", "5. マリルリ", "6. ギルガルド", "7. ハッサム", "8. クレセリア", "9. ヒードラン", "10. ギャラドス"};
+			model.addAttribute("ranking", ranking);
+			model.addAttribute("results", te3);
 		}
 		return "person-view";
+	}
+
+	@RequestMapping(value="/json", method=RequestMethod.GET)
+	@ResponseBody
+	public String json() {
+		Calendar yesterday = TimeUtil.getToday();
+		yesterday.add(Calendar.DAY_OF_MONTH, -1);
+		yesterday.set(Calendar.HOUR_OF_DAY, 0);
+		Date start = yesterday.getTime();
+		
+		yesterday.set(Calendar.HOUR_OF_DAY, 23);
+		Date end = yesterday.getTime();
+
+		Iterable<RankingPokemonTrend> yesterdayRanking = rankingPokemonTrendRepository.findHigherRank(start, end);
+
+		
+		int i = 0;
+		JSONArray ranking = new JSONArray();
+		for(RankingPokemonTrend temp : yesterdayRanking){
+			Iterable<RankingPokemonTrend> latestData = rankingPokemonTrendRepository.findLater(temp.getPokemonNo());
+			JSONArray periodData = new JSONArray();
+			for(RankingPokemonTrend aDay : latestData){
+				JSONArray aDayRanking = new JSONArray();
+				aDayRanking.put(aDay.getTime());
+				aDayRanking.put(aDay.getRanking());
+				periodData.put(aDayRanking);
+			}
+			ranking.put(periodData);
+			i++;
+			if(0 < i){
+				break;
+			}
+		}
+		
+//		[{"values":[["2014-11-30T15:00:00.000Z",1],["2014-12-01T15:00:00.000Z",1],["2014-12-02T15:00:00.000Z",1],["2014-12-03T15:00:00.000Z",1],["2014-12-04T15:00:00.000Z",1],["2014-12-05T15:00:00.000Z",1],["2014-12-06T15:00:00.000Z",1],["2014-12-07T15:00:00.000Z",1],["2014-12-08T15:00:00.000Z",1],["2014-12-09T15:00:00.000Z",1]],"color":"#00aadd"}]
+				
+		return ranking.toString();
 	}
 
 	@RequestMapping(value="/search", method=RequestMethod.GET)
@@ -114,11 +207,6 @@ public class MainController {
 		return "person-view";
 	}
 
-	@RequestMapping("/")
-	@ResponseBody
-	public String home() {
-		return "Hello, Spring Boot Sample Application!";
-	}
 
 	// an entry point
 	public static void main( String[] args )

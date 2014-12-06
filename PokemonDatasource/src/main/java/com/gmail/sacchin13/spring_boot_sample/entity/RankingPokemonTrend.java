@@ -45,4 +45,22 @@ public class RankingPokemonTrend {
 	public String toString() {
 		return toJSON().toString();
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public Date getTime() {
+		return time;
+	}
+
+	public String getPokemonNo() {
+		return pokemon_no;
+	}
+
+	public Integer getRanking() {
+		return ranking;
+	}
+	
+	
 }
