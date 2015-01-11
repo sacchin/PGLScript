@@ -3,6 +3,7 @@ require 'net/http'
 require "uri"
 require 'json'
 require 'mysql2'
+require 'twitter'
 
 #PGLのURL
 PGLURL = "http://3ds.pokemon-gl.com/frontendApi/gbu/getSeasonPokemonDetail";
@@ -187,3 +188,8 @@ mins = hours[1].divmod(60)
 
 buff << "it's take #{days[0].to_i}days #{hours[0].to_i}hours #{mins[0].to_i}minutes #{mins[1]}seconds"
 File.write("/home/ubuntu/log/" + Time.now.to_s + "_log.txt", buff)
+
+tweetStr = "it's take #{days[0].to_i}days #{hours[0].to_i}hours #{mins[0].to_i}minutes #{mins[1]}seconds"
+message = '"' + tweetStr + '"'
+cmd = 'ruby /home/ubuntu/git/PGLScript/PGLScript/twittertest.rb ' + message
+system(cmd)
