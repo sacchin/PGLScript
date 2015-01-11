@@ -62,120 +62,123 @@ buff = ""
 num = 0
 #すべてのポケモンのデータを取得
 while pno != nil do
-puts(Time.now.to_s + ":" + pno + "のデータを取得します。")
-buff << (Time.now.to_s + ":" + pno + "のデータを取得します。¥n")
+	puts(Time.now.to_s + ":" + pno + "のデータを取得します。")
+	buff << (Time.now.to_s + ":" + pno + "のデータを取得します。¥n")
 
-parsedJson = postPGL(pno, seasonId)
+	parsedJson = postPGL(pno, seasonId)
 
-nextPokemonId = parsedJson['nextPokemonId']
-rankingPokemonTrend = parsedJson['rankingPokemonTrend']
+	nextPokemonId = parsedJson['nextPokemonId']
+	rankingPokemonTrend = parsedJson['rankingPokemonTrend']
 
-if (rankingPokemonTrend == nil || nextPokemonId == nil) then
-puts('error!!!')
-buff << 'error!!!¥n'
+	if (rankingPokemonTrend == nil || nextPokemonId == nil) then
+		puts('error!!!')
+		buff << 'error!!!¥n'
 
-pno = nil
-next
-elsif (pno == '719-0') then
-puts("#{pno} is last pokemon")
-buff << "#{pno} is last pokemon¥n"
-break
-end
+		pno = nil
+		next
+	elsif (pno == '719-0') then
+		puts("#{pno} is last pokemon")
+		buff << "#{pno} is last pokemon¥n"
+		break
+	end
 
-parent_id = 0
-client.query(INSERT_RANKING_POKEMON + "('#{pno}')")
-result = client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend WHERE pokemon_no = #{pno} ORDER BY time desc")
-result.each do |row|
-parent_id = row['id']
-break
-end
+	parent_id = 0
+	client.query(INSERT_RANKING_POKEMON + "('#{pno}')")
+	result = client.query("SELECT id, pokemon_no, time FROM ranking_pokemon_trend WHERE pokemon_no = #{pno} ORDER BY time desc")
+	result.each do |row|
+		parent_id = row['id']
+		break
+	end
 
-rankingPokemonInfo = parsedJson['rankingPokemonInfo']
-ranking = rankingPokemonInfo['ranking']
-client.query(UPDATE_RANKING_POKEMON + " #{ranking} WHERE id = #{parent_id}")
+	rankingPokemonInfo = parsedJson['rankingPokemonInfo']
+	ranking = rankingPokemonInfo['ranking']
+	client.query(UPDATE_RANKING_POKEMON + " #{ranking} WHERE id = #{parent_id}")
 
-waza_info = rankingPokemonTrend['wazaInfo']
-if (waza_info != nil && waza_info != '') then
-waza_info.each{|item| 
-client.query(INSERT_WAZA_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["typeId"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
-}
-else
-buff << "#{pno}'s waza_info is nil !!¥n"
-end
+	waza_info = rankingPokemonTrend['wazaInfo']
+	if (waza_info != nil && waza_info != '') then
+		waza_info.each{|item| 
+			client.query(INSERT_WAZA_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["typeId"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
+		}
+	else
+		buff << "#{pno}'s waza_info is nil !!¥n"
+	end
 
-item_info = rankingPokemonTrend['itemInfo']
-if (item_info != nil  && item_info != '')then
-item_info.each{|item| 
-client.query(INSERT_ITEM_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
-}
-else
-buff << "#{pno}'s item_info is nil !!¥n"
-end
+	item_info = rankingPokemonTrend['itemInfo']
+	if (item_info != nil  && item_info != '')then
+		item_info.each{|item| 
+			client.query(INSERT_ITEM_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
+		}
+	else
+		buff << "#{pno}'s item_info is nil !!¥n"
+	end
 
-tokusei_info = rankingPokemonTrend['tokuseiInfo']
-if (tokusei_info != nil && tokusei_info != '') then
-tokusei_info.each{|item| 
-client.query(INSERT_TOKUSEI_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
-}
-else
-buff << "#{pno}'s tokusei_info is nil !!¥n"
-end
+	tokusei_info = rankingPokemonTrend['tokuseiInfo']
+	if (tokusei_info != nil && tokusei_info != '') then
+		tokusei_info.each{|item| 
+			client.query(INSERT_TOKUSEI_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
+		}
+	else
+		buff << "#{pno}'s tokusei_info is nil !!¥n"
+	end
 
-seikaku_info = rankingPokemonTrend['seikakuInfo']
-if (seikaku_info != nil && seikaku_info != '') then
-seikaku_info.each{|item| 
-client.query(INSERT_SEIKAKU_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
-}
-else
-buff << "#{pno}'s seikaku_info is nil !!¥n"
-end
+	seikaku_info = rankingPokemonTrend['seikakuInfo']
+	if (seikaku_info != nil && seikaku_info != '') then
+		seikaku_info.each{|item| 
+			client.query(INSERT_SEIKAKU_INFO + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["name"]}')")
+	}
+	else
+		buff << "#{pno}'s seikaku_info is nil !!¥n"
+	end
 
-ranking_pokemon_down = parsedJson['rankingPokemonDown']
-if (ranking_pokemon_down != nil && ranking_pokemon_down != '') then
-ranking_pokemon_down.each{|item| 
-client.query(INSERT_POKEMON_DOWN + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["pokemonId"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
-}
-buff << "#{pno}'s ranking_pokemon_down is nil !!¥n"
-end
+	ranking_pokemon_down = parsedJson['rankingPokemonDown']
+	if (ranking_pokemon_down != nil && ranking_pokemon_down != '') then
+		ranking_pokemon_down.each{|item| 
+			client.query(INSERT_POKEMON_DOWN + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["pokemonId"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
+		}
+	else
+		buff << "#{pno}'s ranking_pokemon_down is nil !!¥n"
+	end
 
-ranking_pokemon_down_waza = parsedJson['rankingPokemonDownWaza']
-if (ranking_pokemon_down_waza != nil && ranking_pokemon_down_waza != '') then
-ranking_pokemon_down_waza.each{|item| 
-client.query(INSERT_POKEMON_DOWN_WAZA + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["wazaName"]}')")
-}
-buff << "#{pno}'s ranking_pokemon_down_waza is nil !!¥n"
-end
+	ranking_pokemon_down_waza = parsedJson['rankingPokemonDownWaza']
+	if (ranking_pokemon_down_waza != nil && ranking_pokemon_down_waza != '') then
+		ranking_pokemon_down_waza.each{|item| 
+			client.query(INSERT_POKEMON_DOWN_WAZA + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["wazaName"]}')")
+		}
+	else
+		buff << "#{pno}'s ranking_pokemon_down_waza is nil !!¥n"
+	end
 
-ranking_pokemon_sufferer = parsedJson['rankingPokemonSufferer']
-if (ranking_pokemon_sufferer != nil && ranking_pokemon_sufferer != '') then
-ranking_pokemon_sufferer.each{|item| 
-client.query(INSERT_POKEMON_SUFFERER + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["pokemonId"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
-}
-buff << "#{pno}'s ranking_pokemon_sufferer is nil !!"
-end
+	ranking_pokemon_sufferer = parsedJson['rankingPokemonSufferer']
+	if (ranking_pokemon_sufferer != nil && ranking_pokemon_sufferer != '') then
+		ranking_pokemon_sufferer.each{|item| 
+			client.query(INSERT_POKEMON_SUFFERER + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["pokemonId"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
+		}
+	else
+		buff << "#{pno}'s ranking_pokemon_sufferer is nil !!"
+	end
 
-ranking_pokemon_sufferer_waza = parsedJson['rankingPokemonSuffererWaza']
-if (ranking_pokemon_sufferer_waza != nil && ranking_pokemon_sufferer_waza != '') then
-ranking_pokemon_sufferer_waza.each{|item| 
-client.query(INSERT_POKEMON_SUFFERER_WAZA + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["wazaName"]}')")
-}
-buff << "#{pno}'s ranking_pokemon_sufferer_waza is nil !!"
-end
+	ranking_pokemon_sufferer_waza = parsedJson['rankingPokemonSuffererWaza']
+	if (ranking_pokemon_sufferer_waza != nil && ranking_pokemon_sufferer_waza != '') then
+		ranking_pokemon_sufferer_waza.each{|item| 
+			client.query(INSERT_POKEMON_SUFFERER_WAZA + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["usageRate"]}, '#{item["wazaName"]}')")
+	}
+	else
+		buff << "#{pno}'s ranking_pokemon_sufferer_waza is nil !!"
+	end
 
-ranking_pokemon_in = parsedJson['rankingPokemonIn']
-if (ranking_pokemon_in != nil && ranking_pokemon_in != '') then
-ranking_pokemon_in.each{|item| 
-client.query(INSERT_POKEMON_IN + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["pokemonId"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
-}
-buff << "#{pno}'s ranking_pokemon_in is nil !!"
-end
+	ranking_pokemon_in = parsedJson['rankingPokemonIn']
+	if (ranking_pokemon_in != nil && ranking_pokemon_in != '') then
+		ranking_pokemon_in.each{|item| 
+			client.query(INSERT_POKEMON_IN + " (#{parent_id}, #{item["ranking"]}, #{item["sequenceNumber"]}, #{item["pokemonId"]}, '#{item["countBattleByForm"]}', '#{item["battlingChangeFlg"]}')")
+		}
+	else
+		buff << "#{pno}'s ranking_pokemon_in is nil !!"
+	end
 
-sleepTime = Random.new.rand(1..30)
-puts("取得完了したので、" + sleepTime.to_s + "秒待機します。次は、" + nextPokemonId)
-sleep(sleepTime)
-
-pno = nextPokemonId
-
+	sleepTime = Random.new.rand(1..30)
+	puts("取得完了したので、" + sleepTime.to_s + "秒待機します。次は、" + nextPokemonId)
+	sleep(sleepTime)
+	pno = nextPokemonId
 end
 
 days = (Time.now - startTime).divmod(24*60*60)
