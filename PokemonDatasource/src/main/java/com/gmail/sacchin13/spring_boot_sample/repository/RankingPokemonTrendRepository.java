@@ -32,4 +32,9 @@ public interface RankingPokemonTrendRepository extends JpaRepository<RankingPoke
 	@Query("SELECT new com.gmail.sacchin13.spring_boot_sample.entity.RankingPokemonTrend("
 			+ "r.id, r.time, r.pokemon_no, r.ranking) FROM RankingPokemonTrend r WHERE r.ranking IS NOT NULL and (r.time between :start and :end) order by r.ranking asc")
 	public List<RankingPokemonTrend> findHigherRank(@Param("start") Date start, @Param("end") Date end);
+	
+	@Query("SELECT new com.gmail.sacchin13.spring_boot_sample.entity.RankingPokemonTrend("
+			+ "r.id, r.time, r.pokemon_no, r.ranking) FROM RankingPokemonTrend r WHERE r.ranking IS NOT NULL order by r.time desc")
+	public List<RankingPokemonTrend> findLatestDate();
+
 }

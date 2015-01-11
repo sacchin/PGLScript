@@ -144,12 +144,24 @@ public class MainController {
 	@RequestMapping(value="/getRankingJson", method=RequestMethod.GET)
 	@ResponseBody
 	public String getRankingJson() {
-		Calendar yesterday = TimeUtil.getToday();
-		yesterday.add(Calendar.DAY_OF_MONTH, -1);
-		yesterday.set(Calendar.HOUR_OF_DAY, 0);
-		Date start = yesterday.getTime();
-		yesterday.set(Calendar.HOUR_OF_DAY, 23);
-		Date end = yesterday.getTime();
+		Iterable<RankingPokemonTrend> dateList = rankingPokemonTrendRepository.findLatestDate();
+		if(dateList == null){
+			System.out.println("dateList is null");
+			return "[]";
+		}
+		RankingPokemonTrend first = dateList.iterator().next();
+		if(first == null){
+			System.out.println("dateList has not pokemon");
+			return "[]";
+		}
+		
+		Calendar calendar = TimeUtil.getToday();
+		calendar.setTime(first.getTime());
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		Date start = calendar.getTime();
+		calendar.set(Calendar.HOUR_OF_DAY, 23);
+		Date end = calendar.getTime();
+		System.out.println("from" + start + " to " + end);
 
 		Iterable<RankingPokemonTrend> yesterdayRanking = rankingPokemonTrendRepository.findHigherRank(start, end);
 
@@ -159,6 +171,7 @@ public class MainController {
 			pokemon.put("time", temp.getTime());
 			pokemon.put("ranking", temp.getRanking());
 			pokemon.put("pokemon_no", temp.getPokemonNo());
+			rankingList.put(pokemon);
 		}
 //		[{"values":[["2014-11-30T15:00:00.000Z",1],["2014-12-01T15:00:00.000Z",1],["2014-12-02T15:00:00.000Z",1],["2014-12-03T15:00:00.000Z",1],["2014-12-04T15:00:00.000Z",1],["2014-12-05T15:00:00.000Z",1],["2014-12-06T15:00:00.000Z",1],["2014-12-07T15:00:00.000Z",1],["2014-12-08T15:00:00.000Z",1],["2014-12-09T15:00:00.000Z",1]],"color":"#00aadd"}]
 				
@@ -220,15 +233,10 @@ public class MainController {
 		return "hello";    // View file is templates/hello.html
 	}
 
-
-
-
-
 	@RequestMapping("/404")
 	public String notFoundError() {
 		return "error/404"; // templates/error/404.html
 	} 
-
 
 	@RequestMapping("/pokemon-json")
 	public String pokemonJSON(Model model) {
@@ -239,9 +247,6 @@ public class MainController {
 		}
 		return temp.toString();
 	}
-
-
-
 
 	@RequestMapping(value="/find", method=RequestMethod.POST) 
 	public String find(Model model,  @RequestParam("category") String category , @RequestParam("str") String str) {
