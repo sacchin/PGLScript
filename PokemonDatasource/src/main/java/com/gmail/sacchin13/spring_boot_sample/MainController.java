@@ -141,9 +141,9 @@ public class MainController {
 		return "person-view";
 	}
 
-	@RequestMapping(value="/json", method=RequestMethod.GET)
+	@RequestMapping(value="/getRankingJson", method=RequestMethod.GET)
 	@ResponseBody
-	public String json() {
+	public String getRankingJson() {
 		Calendar yesterday = TimeUtil.getToday();
 		yesterday.add(Calendar.DAY_OF_MONTH, -1);
 		yesterday.set(Calendar.HOUR_OF_DAY, 0);
