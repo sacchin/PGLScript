@@ -148,34 +148,21 @@ public class MainController {
 		yesterday.add(Calendar.DAY_OF_MONTH, -1);
 		yesterday.set(Calendar.HOUR_OF_DAY, 0);
 		Date start = yesterday.getTime();
-		
 		yesterday.set(Calendar.HOUR_OF_DAY, 23);
 		Date end = yesterday.getTime();
 
 		Iterable<RankingPokemonTrend> yesterdayRanking = rankingPokemonTrendRepository.findHigherRank(start, end);
 
-		
-		int i = 0;
-		JSONArray ranking = new JSONArray();
+		JSONArray rankingList = new JSONArray();
 		for(RankingPokemonTrend temp : yesterdayRanking){
-			Iterable<RankingPokemonTrend> latestData = rankingPokemonTrendRepository.findLater(temp.getPokemonNo());
-			JSONArray periodData = new JSONArray();
-			for(RankingPokemonTrend aDay : latestData){
-				JSONArray aDayRanking = new JSONArray();
-				aDayRanking.put(aDay.getTime());
-				aDayRanking.put(aDay.getRanking());
-				periodData.put(aDayRanking);
-			}
-			ranking.put(periodData);
-			i++;
-			if(0 < i){
-				break;
-			}
+			JSONObject pokemon = new JSONObject();
+			pokemon.put("time", temp.getTime());
+			pokemon.put("ranking", temp.getRanking());
+			pokemon.put("pokemon_no", temp.getPokemonNo());
 		}
-		
 //		[{"values":[["2014-11-30T15:00:00.000Z",1],["2014-12-01T15:00:00.000Z",1],["2014-12-02T15:00:00.000Z",1],["2014-12-03T15:00:00.000Z",1],["2014-12-04T15:00:00.000Z",1],["2014-12-05T15:00:00.000Z",1],["2014-12-06T15:00:00.000Z",1],["2014-12-07T15:00:00.000Z",1],["2014-12-08T15:00:00.000Z",1],["2014-12-09T15:00:00.000Z",1]],"color":"#00aadd"}]
 				
-		return ranking.toString();
+		return rankingList.toString();
 	}
 
 	@RequestMapping(value="/search", method=RequestMethod.GET)
