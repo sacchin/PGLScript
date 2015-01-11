@@ -191,5 +191,5 @@ File.write("/home/ubuntu/log/" + Time.now.to_s + "_log.txt", buff)
 
 tweetStr = "it's take #{days[0].to_i}days #{hours[0].to_i}hours #{mins[0].to_i}minutes #{mins[1]}seconds"
 message = '"' + tweetStr + '"'
-cmd = 'ruby /home/ubuntu/git/PGLScript/PGLScript/twittertest.rb ' + message
+cmd = 'ruby /home/ubuntu/tweet.rb ' + message
 system(cmd)
