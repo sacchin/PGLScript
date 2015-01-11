@@ -144,7 +144,7 @@ public class MainController {
 	@RequestMapping(value="/getRankingJson", method=RequestMethod.GET)
 	@ResponseBody
 	public String getRankingJson() {
-		Iterable<RankingPokemonTrend> dateList = rankingPokemonTrendRepository.findLatestDate();
+		Iterable<RankingPokemonTrend> dateList = rankingPokemonTrendRepository.findLater("303-0");
 		if(dateList == null){
 			System.out.println("dateList is null");
 			return "[]";
