@@ -32,7 +32,7 @@ response = Net::HTTP.start(uri.host, uri.port){|http|
 request.set_form_data({
 'languageId'=>'1', 
 'seasonId'=>seasonId,
-'battleType'=>'0',
+'battleType'=>'1',
 'timezone'=>'JST',
 'pokemonId'=>pockemonNo,
 'displayNumberWaza'=>'10',
@@ -56,7 +56,7 @@ end
 #ここからmain
 client = Mysql2::Client.new(:host => "localhost", :username => "sacchin", :password => "su0u1r0", :database => "pokemon")
 pno = '1-0'
-seasonId = '6'
+seasonId = '108'
 startTime = Time.now
 buff = ""
 
