@@ -23,34 +23,34 @@ INSERT_POKEMON_IN = "INSERT INTO ranking_pokemon_in (ranking_pokemon_trend_id, r
 
 #ポケモン図鑑NoとシーズンIDから、1体のポケモンのデータを取得する
 def postPGL(pockemonNo, seasonId)
-uri = URI.parse(PGLURL)
-timestamp = Time.now.to_i
+	uri = URI.parse(PGLURL)
+	timestamp = Time.now.to_i
 
-response = Net::HTTP.start(uri.host, uri.port){|http|
-  request = Net::HTTP::Post.new(uri.path)
-  request["referer"] = "http://3ds.pokemon-gl.com/battle/"
-request.set_form_data({
-'languageId'=>'1', 
-'seasonId'=>seasonId,
-'battleType'=>'1',
-'timezone'=>'JST',
-'pokemonId'=>pockemonNo,
-'displayNumberWaza'=>'10',
-'displayNumberTokusei'=>'3',
-'displayNumberSeikaku'=>'10',
-'displayNumberItem'=>'10',
-'displayNumberLevel'=>'10',
-'displayNumberPokemonIn'=>'10',
-'timeStamp'=>timestamp
-}, '&')
-  response = http.request(request)
-}
-case response
-when Net::HTTPSuccess, Net::HTTPRedirection
-parsedJson = JSON.parse(response.entity)
-else
-  response.value
-end
+	response = Net::HTTP.start(uri.host, uri.port){|http|
+		request = Net::HTTP::Post.new(uri.path)
+		request["referer"] = "http://3ds.pokemon-gl.com/battle/"
+		request.set_form_data({
+			'languageId'=>'1', 
+			'seasonId'=>seasonId,
+			'battleType'=>'1',
+			'timezone'=>'JST',
+			'pokemonId'=>pockemonNo,
+			'displayNumberWaza'=>'10',
+			'displayNumberTokusei'=>'3',
+			'displayNumberSeikaku'=>'10',
+			'displayNumberItem'=>'10',
+			'displayNumberLevel'=>'10',
+			'displayNumberPokemonIn'=>'10',
+			'timeStamp'=>timestamp
+		}, '&')
+		response = http.request(request)
+	}
+	case response
+		when Net::HTTPSuccess, Net::HTTPRedirection then
+			parsedJson = JSON.parse(response.entity)
+		else
+			raise " is not HTTPSucces!"
+	end
 end
 
 #ここからmain
@@ -67,6 +67,10 @@ while pno != nil do
 	buff << (Time.now.to_s + ":" + pno + "のデータを取得します。¥n")
 
 	parsedJson = postPGL(pno, seasonId)
+	rescue => errorMessage
+		cmd = 'ruby /home/ubuntu/tweet.rb ' + pno + errorMessage
+		system(cmd)
+	end
 
 	nextPokemonId = parsedJson['nextPokemonId']
 	rankingPokemonTrend = parsedJson['rankingPokemonTrend']
